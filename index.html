@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>EducaTV Campinas | Links importantes</title>
+<meta name="description" content="Página interna da equipe da EducaTV Campinas: destaques, calendário, Wi-Fi, QR Codes e links importantes.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<a class="skip" href="#conteudo">Ir para o conteúdo</a>
+
+<!-- ===== Topo: logo, menu e busca ===== -->
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#inicio" aria-label="EducaTV Campinas, início">
+      <img class="owl" src="blue.jpeg" alt="">
+      <span class="word">EducaTV</b><small>Campinas</small></span>
+    </a>
+    <nav class="nav" id="menu" aria-label="Menu principal">
+      <a href="#inicio">Início</a>
+      <a href="#materiais">Materiais</a>
+      <a href="#producao">Produção</a>
+      <a href="#sistemas">Sistemas</a>
+      <a href="#processos">Processos</a>
+    </nav>
+    <div class="search">
+      <label class="sr" for="lk-filtro">Buscar link</label>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg>
+      <input id="lk-filtro" type="search" placeholder="Buscar link (ex.: logo, OS)" autocomplete="off">
+    </div>
+  </div>
+</header>
+
+<main id="conteudo">
+  <p class="res" id="lk-resultado" role="status" aria-live="polite" hidden></p>
+
+  <!-- ===== INÍCIO: destaques, calendário, Wi-Fi e QR Codes ===== -->
+  <section class="view on" id="v-inicio" data-view="inicio">
+    <div class="wrap">
+
+      <!-- Destaques (carrossel). Edite os itens no começo do script.js -->
+      <section class="block first" id="destaques">
+        <div class="car" role="region" aria-roledescription="carousel" aria-label="Destaques">
+          <div class="car-view"><div class="car-track" id="car-track"></div></div>
+          <button type="button" class="car-btn prev" id="car-prev" aria-label="Destaque anterior"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+          <button type="button" class="car-btn next" id="car-next" aria-label="Próximo destaque"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+          <div class="car-bar">
+            <div class="car-dots" id="car-dots"></div>
+            <button type="button" class="car-pause" id="car-pause" aria-label="Pausar destaques"></button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Calendário (Google Agenda). Edite AGENDAS no script.js -->
+      <section class="block" id="calendario">
+        <span class="chip">Agenda</span>
+        <h2 class="h2">Calendário <b>EducaTV</b></h2>
+        <p class="sub">Eventos, gravações e reuniões da equipe.</p>
+        <div class="agenda" id="agenda"></div>
+      </section>
+
+      <!-- Wi-Fi -->
+      <section class="block" id="wifi">
+        <span class="chip">Internet</span>
+        <h2 class="h2">Redes <b>Wi-Fi</b></h2>
+        <p class="sub">Escaneie o QR Code com a câmera do celular para conectar, ou copie a senha.</p>
+        <div class="wf-grid">
+
+          <article class="wf-card">
+            <h3>Rede Pedagógica</h3>
+            <img class="wf-qr" src="wifi-pedagogica.png" alt="QR Code para conectar na rede Wi-Fi Pedagógica" width="180" height="180">
+            <p class="wf-pass"><span>Senha</span><code>aluno_senha</code></p>
+            <button type="button" class="wf-copy" data-copy="aluno_senha">Copiar senha</button>
+          </article>
+
+          <article class="wf-card wf-restrict">
+            <h3>Rede Administrativa</h3>
+            <img class="wf-qr" src="wifi-administrativa.png" alt="QR Code para conectar na rede Wi-Fi Administrativa" width="180" height="180">
+            <p class="wf-pass"><span>Senha</span><code>@dm_#25#</code></p>
+            <button type="button" class="wf-copy" data-copy="@dm_#25#">Copiar senha</button>
+          </article>
+
+          <article class="wf-card">
+            <h3>Rede antiga <small>(EducaTV)</small></h3>
+            <img class="wf-qr" src="wifi-antiga.png" alt="QR Code para conectar na rede Wi-Fi antiga da EducaTV" width="180" height="180">
+            <p class="wf-pass"><span>Senha</span><code>educa@tv@</code></p>
+            <button type="button" class="wf-copy" data-copy="educa@tv@">Copiar senha</button>
+          </article>
+
+        </div>
+        <p class="wf-status" id="wf-status" role="status" aria-live="polite"></p>
+      </section>
+
+      <!-- QR Codes -->
+      <section class="block" id="qrcodes">
+        <span class="chip">Acesso rápido</span>
+        <h2 class="h2">QR <b>Codes</b></h2>
+        <p class="sub">Aponte a câmera do celular para abrir direto, ou use o botão.</p>
+        <div class="qr-grid">
+
+          <article class="wf-card">
+            <h3>Linktree EducaTV</h3>
+            <img class="wf-qr" src="qr-linktree.png" alt="QR Code do Linktree da EducaTV Campinas" width="180" height="180">
+            <p class="qr-note">Instagram e links da EducaTV</p>
+            <a class="lk-btn" href="https://linktr.ee/educatvcampinas" target="_blank" rel="noopener noreferrer">Abrir Linktree</a>
+          </article>
+
+          <article class="wf-card">
+            <h3>Padlet interno</h3>
+            <img class="wf-qr" src="qr-padlet.png" alt="QR Code do Padlet interno da EducaTV Campinas" width="180" height="180">
+            <p class="qr-note">Compartilhando alegrias</p>
+            <a class="lk-btn" href="https://share.google/EKpywSMEpaPppxyhH" target="_blank" rel="noopener noreferrer">Abrir Padlet</a>
+          </article>
+
+        </div>
+      </section>
+
+    </div>
+  </section>
+
+  <!-- ===== Materiais e identidade visual ===== -->
+  <section class="view lk-view" id="v-materiais" data-view="materiais">
+    <div class="wrap">
+      <article class="lk-group">
+        <h2><span class="lk-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="10" r="2"/><path d="M21 16l-5-5-8 9"/></svg></span>Materiais e identidade visual</h2>
+        <p class="lk-desc">Logo, modelos, vinhetas e apresentações da EducaTV.</p>
+        <ul class="lk-list">
+          <li><a href="https://drive.google.com/file/d/1BP3sJOe4YMFmaQAAiQ-Xx0-4kbtoDP1c/view?usp=drive_link" target="_blank" rel="noopener noreferrer"><span class="lk-tag">PDF</span><span class="lk-name">Portfólio EducaTV 2026</span></a></li>
+          <li><a href="https://drive.google.com/file/d/1A6B_Yw4GzOxeB_U6d49yZ0CTj7YLQWO6/view?usp=drive_link" target="_blank" rel="noopener noreferrer"><span class="lk-tag">Vídeo</span><span class="lk-name">Vídeo Institucional Versão 2</span></a></li>
+          <li><a href="https://drive.google.com/drive/folders/1BsxwdA4JrAAU8w-ncygRRdxH92SrefaG?usp=drive_link" target="_blank" rel="noopener noreferrer"><span class="lk-tag">Pasta</span><span class="lk-name">Vídeos Institucionais</span></a></li>
+          <li><a href="https://drive.google.com/drive/folders/1qaPAtTIhXXnunpicHe0nr4dZIX5U2-fj?usp=drive_link" target="_blank" rel="noopener noreferrer"><span class="lk-tag">Pasta</span><span class="lk-name">Logo EducaTV</span></a></li>
+          <li><a href="https://drive.google.com/drive/folders/1NdvghebEC-JgZP_0xF7T-H1a_ByuJe2F" target="_blank" rel="noopener noreferrer"><span class="lk-tag">Pasta</span><span class="lk-name">Materiais de Edição<span class="lk-note">Vinhetas, créditos, QR Codes etc.</span></span></a></li>
+          <li><a href="https://drive.google.com/drive/folders/0ALZY0WfCBwKHUk9PVA" target="_blank" rel="noopener noreferrer"><span class="lk-tag">Link</span><span class="lk-name">Banco de imagens (drone)</span></a></li>
+          <li><a href="https://docs.google.com/document/d/1ijXdUI1QxHkaS6vXJRYdAdZCjSCmccbqWkoI-msJRhM/edit?usp=drive_link" target="_blank" rel="noopener noreferrer"><span class="lk-tag">Doc</span><span class="lk-name">Créditos EducaTV<span class="lk-note">Fazer uma cópia e adequar a cada programa</span></span></a></li>
+          <li><a href="https://drive.google.com/drive/folders/199NNy7ByME-xYa94nenSD0DO0hN4zJPV" target="_blank" rel="noopener noreferrer"><span class="lk-tag">Link</span><span class="lk-name">Cartões de visita e apresentação EducaTV</span></a></li>
+          <li><a href="https://drive.google.com/file/d/1jH9yY2EhONYr2GlJyooFSN8Xo-L9blDq/view?usp=drive_link" target="_blank" rel="noopener noreferrer"><span class="lk-tag">Imagem</span><span class="lk-name">QR Code Canva Pro (convite)</span></a></li>
+        </ul>
+      </article>
+    </div>
+  </section>
+
+  <!-- ===== Produção e edição ===== -->
+  <section class="view lk-view" id="v-producao" data-view="producao">
+    <div class="wrap">
+      <article class="lk-group">
+        <h2><span class="lk-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="6" width="13" height="12" rx="3"/><path d="M15.5 10.5l6-3v9l-6-3z"/></svg></span>Produção e edição</h2>
+        <p class="lk-desc">Organização dos programas, fila de edição e referências editoriais.</p>
+        <ul class="lk-list">
+          <li><a href="https://docs.google.com/spreadsheets/d/1zPWnE8aJolq_2EYZ8uuyx60rNyFG-sKrqdLnmXf5Boo/edit?gid=0#gid=0" target="_blank" rel="noopener noreferrer"><span class="lk-tag">Planilha</span><span class="lk-name">Fila de Edição 2026</span></a></li>
+          <li><a href="https://docs.google.com/spreadsheets/d/1vOm7gXVQuiwHiHfJisGQiDreYPAdgzaVVo-k3tO60lA/edit?gid=1239148662#gid=1239148662" target="_blank" rel="noopener noreferrer"><span class="lk-tag">Planilha</span><span class="lk-name">Planilha de organização de programas 2026</span></a></li>
+          <li><a href="https://drive.google.com/drive/folders/1pyN_234VK7S--aOdqI5wPaVwzOVPLgNJ" target="_blank" rel="noopener noreferrer"><span class="lk-tag">Pasta</span><span class="lk-name">Modelo OS</span></a></li>
+          <li><a href="https://docs.google.com/document/d/1GdR7RNsbLEyeQqxY7_-CsGNarRN3ZMPJqtLZUAlPitw/edit?usp=sharing" target="_blank" rel="noopener noreferrer"><span class="lk-tag">Doc</span><span class="lk-name">Conceituais EducaTV 2025 e 2026</span></a></li>
+          <li><a href="https://drive.google.com/file/d/1lYPqHK70pn47bo4i7BY_OjpgV1tQzTGk/view?usp=drive_link" target="_blank" rel="noopener noreferrer"><span class="lk-tag">PDF</span><span class="lk-name">Classificação Indicativa: guia prático de audiovisual (3ª ed.)</span></a></li>
+          <li><a href="https://docs.google.com/document/d/1D_vMa-B5d3TuAcW7wyj2QQxSQ8oA_pmiAOosFDCJANM/edit?tab=t.0" target="_blank" rel="noopener noreferrer"><span class="lk-tag">Doc</span><span class="lk-name">Fluxo para solicitação de avaliação de materiais<span class="lk-note">Formadores Duílio e Fabiano, 2026</span></span></a></li>
+        </ul>
+      </article>
+    </div>
+  </section>
+
+  <!-- ===== Sistemas e consultas ===== -->
+  <section class="view lk-view" id="v-sistemas" data-view="sistemas">
+    <div class="wrap">
+      <article class="lk-group">
+        <h2><span class="lk-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg></span>Sistemas e consultas</h2>
+        <p class="lk-desc">Acessos a sistemas da Prefeitura e consultas rápidas.</p>
+        <ul class="lk-list">
+          <li><a href="https://educaflix.showcase.com.br/" target="_blank" rel="noopener noreferrer"><span class="lk-tag">Sistema</span><span class="lk-name">EducaFlix</span></a></li>
+          <li><a href="https://sei.campinas.sp.gov.br/sei/controlador.php?acao=procedimento_trabalhar&amp;id_procedimento=17368793" target="_blank" rel="noopener noreferrer"><span class="lk-tag">Sistema</span><span class="lk-name">Atas de Reunião (SEI)</span></a></li>
+          <li><a href="https://esqueci.ima.sp.gov.br/changepw.php" target="_blank" rel="noopener noreferrer"><span class="lk-tag">Sistema</span><span class="lk-name">Reset de senha IMA</span></a></li>
+          <li><a href="https://consultaescolas.campinas.sp.gov.br/integre/web/cons_escola.php" target="_blank" rel="noopener noreferrer"><span class="lk-tag">Consulta</span><span class="lk-name">Consulta de escolas<span class="lk-note">Endereço e telefone</span></span></a></li>
+          <li><a href="https://campinas.sp.gov.br/secretaria/educacao/pagina/naeds" target="_blank" rel="noopener noreferrer"><span class="lk-tag">Consulta</span><span class="lk-name">NAEDs</span></a></li>
+          <li><a href="https://linktr.ee/educatvcampinas" target="_blank" rel="noopener noreferrer"><span class="lk-tag">Link</span><span class="lk-name">Linktree EducaTV<span class="lk-note">Instagram e QR Codes</span></span></a></li>
+        </ul>
+      </article>
+    </div>
+  </section>
+
+  <!-- ===== Processos automatizados ===== -->
+  <section class="view lk-view" id="v-processos" data-view="processos">
+    <div class="wrap">
+      <article class="lk-group">
+        <h2><span class="lk-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 3L5 13h6l-1 8 8-10h-6z"/></svg></span>Processos automatizados</h2>
+        <p class="lk-desc">Solicitações que seguem um fluxo pronto.</p>
+        <ul class="lk-list">
+          <li><a href="https://forms.gle/U6P76ZfZgsU1aAcM7" target="_blank" rel="noopener noreferrer"><span class="lk-tag">Fluxo</span><span class="lk-name">Envio de OS de captação<span class="lk-note">Rio Brasil</span></span></a></li>
+          <li><a href="https://forms.gle/3yjgqQvvuq2apgBQ6" target="_blank" rel="noopener noreferrer"><span class="lk-tag">Fluxo</span><span class="lk-name">Agendamento de viaturas</span></a></li>
+        </ul>
+      </article>
+    </div>
+  </section>
+
+  <p class="lk-empty" id="lk-vazio" role="status" aria-live="polite">Nenhum link encontrado para essa busca.</p>
+</main>
+
+<footer>
+  <div class="wrap">
+    <a class="brand" href="#inicio" aria-label="EducaTV Campinas, início">
+      <img class="owl" src="blue.jpeg" alt="">
+      <span class="word">EducaTV</b><small>Campinas</small></span>
+    </a>
+    <p>Secretaria Municipal de Educação<br>Prefeitura Municipal de Campinas</p>
+    <p>Rua Sacramento, 374, Vila Itapura<br>CEP 13.010-210<br>(19) 3733-7474 · educatv@educa.campinas.sp.gov.br</p>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
