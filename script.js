@@ -4,6 +4,7 @@
    0. CONFIGURAÇÃO (é aqui que você liga a planilha e o calendário)
    1. Copiar texto
    2. Menu e telas
+   2b. Links extras (entram no fim da lista de cada tela)
    3. Busca de links
    4. Novidades: leitura da planilha na nuvem
    5. Carrossel de destaques
@@ -11,6 +12,7 @@
    7. Calendário
    8. Botão "copiar endereço" de cada link
    9. Botões "Copiar senha" (Wi-Fi)
+   10. Natal: neve, luzinhas, fundo decorativo e música
    ========================================================== */
 
 /* ---------- 0. CONFIGURAÇÃO ---------- */
@@ -19,7 +21,7 @@
 // Cole aqui o endereço do "App da Web" gerado pelo criar-banco-educatv.gs
 // (termina em /exec). Também funciona com o link CSV de uma planilha publicada na web.
 // Colunas da planilha: data, categoria, titulo, texto, detalhe, link, rotulo, imagem, carrossel
-// Enquanto estiver vazio, o site mostra os exemplos de EXEMPLOS lá embaixo.
+// Enquanto estiver vazio, o site mostra as novidades da lista EXEMPLOS lá embaixo.
 var PLANILHA_CSV = '';
 
 // Quantas novidades (as mais recentes) aparecem no carrossel
@@ -43,14 +45,25 @@ var CALENDARIOS = [
 // Como o calendário abre: 'MONTH' (mês), 'WEEK' (semana) ou 'AGENDA' (lista de próximos eventos)
 var CALENDARIO_MODO = 'MONTH';
 
-// Novidades de novembro/2026 usadas enquanto a planilha não estiver ligada (ou está fora do ar e não há cópia salva).
-// Têm as mesmas colunas da planilha: data, categoria, titulo, texto, detalhe, link, rotulo, imagem, carrossel
+// Natal: neve, luzinhas, fundo azul-noite com luzes vermelhas, árvore, coruja e música suave (sem botões).
+// Liga/desliga em NATAL.
+var NATAL = true;
+var NATAL_ATE = '2027-01-06';            // depois dessa data o clima de Natal some sozinho (AAAA-MM-DD)
+var CORUJA_NATAL = 'coruja-natal.png';   // imagem da coruja que aparece esmaecida no fundo (deixe na pasta do site). Vazio = sem coruja
+var MUSICA_ARQUIVO = '';                 // opcional: nome de um .mp3 na pasta do site. Vazio = melodia gerada pelo navegador (não precisa de arquivo)
+var MUSICA = true;                       // true = a música suave de Natal toca no primeiro clique/toque em qualquer lugar do site
+var MUSICA_VOLUME = .12;                 // volume da música (0 a 1). Quanto menor, mais suave
+
+// Novidades usadas enquanto a planilha não estiver ligada (ou estiver fora do ar e não houver cópia salva).
+// Mesmas colunas da planilha: data, categoria, titulo, texto, detalhe, link, rotulo, imagem, carrossel
+// Campo extra "arte": imagem que ocupa o slide inteiro (sem texto). Clique abre a imagem grande.
+// Campo extra "poster": nome de uma imagem que aparece inteira ao lado do texto (ex.: cartazes e calendários).
 var EXEMPLOS = [
-  { data: '2026-11-11', categoria: 'EducaTV', titulo: 'Notícias da Secretaria de Educação', texto: 'Acompanhe no portal oficial as novidades, comunicados e ações da Secretaria Municipal de Educação de Campinas.', detalhe: 'Portal Educa Campinas', link: 'https://educa.campinas.sp.gov.br/noticias', rotulo: 'Ver notícias', imagem: '', carrossel: 'sim' },
-  { data: '2026-11-10', categoria: 'Educação', titulo: 'Enem registra aumento na participação de alunos da rede pública', texto: 'Cerca de 65% dos concluintes da rede pública compareceram ao exame no domingo, segundo o balanço do Ministério da Educação.', detalhe: 'Enem 2026 · balanço da primeira aplicação', link: 'https://diariodocomercio.com.br/variedades/enem-aumento-alunos-rede-publica/', rotulo: 'Ler matéria', imagem: '', carrossel: 'sim' },
-  { data: '2026-11-09', categoria: 'Prefeitura', titulo: 'EGDS abre inscrições para curso sobre uso excessivo de tecnologia, jogos e apostas', texto: 'A EGDS, da Prefeitura de Campinas, abriu inscrições para curso sobre o uso excessivo de tecnologia, jogos e apostas.', detalhe: 'Nota da Prefeitura de Campinas · 09/11', link: 'https://www.campinas.sp.gov.br/noticias', rotulo: 'Ver nota', imagem: '', carrossel: 'sim' },
-  { data: '2026-11-09', categoria: 'Educação', titulo: 'Educação de Campinas formaliza política para as relações étnico-raciais', texto: 'A Secretaria Municipal de Educação criou a Política de Educação para as Relações Étnico-Raciais, na perspectiva antirracista, com diretrizes, princípios e indicadores para articular e avaliar as ações educativas.', detalhe: 'Portaria publicada no Diário Oficial de 5 de novembro', link: 'https://diariocampineiro.com.br/campinas-formaliza-politica-de-educacao-para-as-relacoes-etnico-raciais/', rotulo: 'Ler matéria', imagem: '', carrossel: 'sim' },
-  { data: '2026-11-06', categoria: 'Educação', titulo: 'Campinas recebe evento global sobre inteligência artificial e o futuro da educação', texto: 'O encontro reuniu gestores de escolas e secretários de educação da região para discutir o uso seguro da inteligência artificial no ambiente escolar.', detalhe: 'Hotel Royal Palm Plaza · 9 de novembro', link: 'https://horacampinas.com.br/campinas-recebe-evento-global-sobre-inteligencia-artificial-e-o-futuro-da-educacao/', rotulo: 'Ler matéria', imagem: '', carrossel: 'sim' }
+  { data: '2026-11-17', categoria: 'EducaTV', titulo: 'Feliz Natal! Boas Festas 2026', texto: '', detalhe: '', link: 'natal-2026.jpg', rotulo: 'Ver imagem', imagem: '', arte: 'natal-2026.jpg', carrossel: 'sim' },
+  { data: '2026-11-17', categoria: 'EducaTV', titulo: 'Calendário Geral: formações e reuniões da equipe', texto: '', detalhe: '', link: 'calendario-geral.jpg', rotulo: 'Ver calendário completo', imagem: '', poster: 'calendario-geral.jpg', carrossel: 'sim' },
+  { data: '2026-11-16', categoria: 'EducaTV', titulo: 'Aniversário da EducaTV', texto: 'Confira os materiais e a identidade visual da EducaTV Campinas.', detalhe: '', link: 'https://educatvdevops-ops.github.io/EducaTV-Links/#materiais', rotulo: 'Saiba mais', imagem: '', carrossel: 'sim' },
+  { data: '', categoria: 'Prefeitura', titulo: 'Projeto audiovisual da EducaTV resgata memória do antigo Ateneu e debate educação patrimonial em Campinas', texto: 'Matéria da Prefeitura de Campinas sobre o projeto audiovisual da EducaTV.', detalhe: 'Portal da Prefeitura de Campinas', link: 'https://campinas.sp.gov.br/noticias/153511', rotulo: 'Ler matéria', imagem: '', carrossel: 'sim' },
+  { data: '', categoria: 'Educação', titulo: 'Práticas Restaurativas e Cultura de Paz: evento especial da SME Campinas', texto: 'Assista à transmissão do evento especial no canal da SME Campinas.', detalhe: 'YouTube · SME Campinas', link: 'https://www.youtube.com/live/IsbnOa2nDaY', rotulo: 'Assistir no YouTube', imagem: '', carrossel: 'sim' }
 ];
 
 /* ---------- 1. Copiar texto ---------- */
@@ -99,6 +112,25 @@ function mostrarTela() {
 window.addEventListener('hashchange', function () { limparBusca(); mostrarTela(); });
 mostrarTela();
 
+/* ---------- 2b. Links extras (entram no fim da lista de cada tela) ---------- */
+// Para adicionar outro link no futuro, copie uma linha.  tela: materiais | producao | sistemas | processos
+var LINKS_EXTRA = [
+  { tela: 'materiais', tipo: 'PDF', nome: 'Catálogo de Produções: Eixo Equidade 2026', texto: 'Temas do eixo Equidade nas produções da EducaTV Campinas.', link: 'https://drive.google.com/file/d/14ZbMjOw6B-t-ONy_PAGfDvCHbtJEZ6x7/view' },
+  { tela: 'materiais', tipo: 'PDF', nome: 'Catálogo EducaTV 2022–2025', texto: 'Catálogo com as produções da EducaTV de 2022 a 2025.', link: 'https://drive.google.com/file/d/1Cz7agcU-zxtIIULdTEW-SSJmvCNwM-wm/view' },
+  { tela: 'materiais', tipo: 'Vídeo', nome: 'Vinheta EducaTV', texto: 'Abre a pasta Materiais de Edição, onde ficam as vinhetas.', link: 'https://drive.google.com/drive/folders/1NdvghebEC-JgZP_0xF7T-H1a_ByuJe2F' }
+];
+LINKS_EXTRA.forEach(function (x) {
+  var ul = document.querySelector('#v-' + x.tela + ' .lk-list');
+  if (!ul) return;
+  var li = document.createElement('li'), a = document.createElement('a');
+  a.href = x.link; a.target = '_blank'; a.rel = 'noopener noreferrer';
+  a.innerHTML = '<span class="lk-side"><span class="lk-tag"></span><span class="lk-name"></span></span><span class="lk-text"></span>';
+  a.querySelector('.lk-tag').textContent = x.tipo;
+  a.querySelector('.lk-name').textContent = x.nome;
+  a.querySelector('.lk-text').textContent = x.texto || '';
+  li.appendChild(a); ul.appendChild(li);
+});
+
 /* ---------- 3. Busca de links ---------- */
 var itens = document.querySelectorAll('.lk-list li');
 var viewsLinks = document.querySelectorAll('.lk-view');
@@ -106,7 +138,7 @@ var vazio = document.getElementById('lk-vazio');
 var resultado = document.getElementById('lk-resultado');
 
 // tira acentos e maiúsculas para a busca ser tolerante
-function norm(s) { return String(s).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''); }
+function norm(s) { return String(s).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, ''); }
 
 function limparBusca() {
   filtro.value = '';
@@ -196,6 +228,8 @@ function normalizar(o) {
     link: (o.link || '').trim(),
     rotulo: (o.rotulo || '').trim() || 'Saiba mais',
     imagem: urlImagem(o.imagem),
+    poster: urlImagem(o.poster),
+    arte: urlImagem(o.arte),
     carrossel: norm((o.carrossel || 'sim').trim()) !== 'nao'
   };
 }
@@ -215,7 +249,11 @@ function paraItens(linhas) {
   return lista;
 }
 
-function dadosExemplo() { return EXEMPLOS.map(normalizar); }
+function dadosExemplo() {
+  var l = EXEMPLOS.map(normalizar);
+  l.sort(function (a, b) { return (b.data ? b.data.getTime() : 0) - (a.data ? a.data.getTime() : 0); });
+  return l;
+}
 
 // Busca a planilha. Se falhar, usa a última cópia salva no navegador; se não houver, os exemplos.
 function carregarNovidades() {
@@ -264,21 +302,35 @@ var Carrossel = (function () {
       s.setAttribute('role', 'group'); s.setAttribute('aria-roledescription', 'slide');
       s.setAttribute('aria-label', (i + 1) + ' de ' + lista.length);
       if (d.imagem) { s.classList.add('tem-img'); s.style.backgroundImage = 'url("' + d.imagem.replace(/"/g, '%22') + '")'; }
+      var alvo = s, im = null;
+      if (d.arte) {
+        s.classList.add('com-arte');
+        var fundo = el('img', 'arte-bg'); fundo.src = d.arte; fundo.alt = ''; fundo.setAttribute('aria-hidden', 'true');
+        var arte = el('img', 'arte-img'); arte.src = d.arte; arte.alt = d.titulo; arte.decoding = 'async';
+        s.appendChild(fundo); s.appendChild(arte);
+        if (d.link) {
+          var al = el('a', 'arte-link'); al.href = d.link; al.target = '_blank'; al.rel = 'noopener noreferrer';
+          al.setAttribute('aria-label', 'Abrir imagem em tela cheia: ' + d.titulo); s.appendChild(al);
+        }
+      } else {
+      if (d.poster) { s.classList.add('com-poster'); alvo = el('div', 'slide-txt'); im = el('img', 'slide-poster'); im.src = d.poster; im.alt = 'Imagem do destaque: ' + d.titulo; im.decoding = 'async'; im.addEventListener('error', function () { im.remove(); s.classList.remove('com-poster'); }); }
 
       if (d.categoria || d.data) {
         var meta = el('div', 'slide-meta');
         if (d.categoria) meta.appendChild(el('span', 'tag cat-' + slug(d.categoria), d.categoria));
         if (d.data) meta.appendChild(el('span', 'data', dataLonga(d.data)));
         if (ehNovo(d)) meta.appendChild(el('span', 'novo', 'Novo'));
-        s.appendChild(meta);
+        alvo.appendChild(meta);
       }
-      s.appendChild(el('h2', '', d.titulo));
-      if (d.texto) s.appendChild(el('p', '', d.texto));
-      if (d.detalhe) s.appendChild(el('div', 'slide-det', d.detalhe));
+      alvo.appendChild(el('h2', '', d.titulo));
+      if (d.texto) alvo.appendChild(el('p', '', d.texto));
+      if (d.detalhe) alvo.appendChild(el('div', 'slide-det', d.detalhe));
       if (d.link) {
         var a = el('a', 'btn', d.rotulo);
         a.href = d.link; a.target = '_blank'; a.rel = 'noopener noreferrer';
-        s.appendChild(a);
+        alvo.appendChild(a);
+      }
+      if (im) { s.appendChild(alvo); s.appendChild(im); }
       }
       track.appendChild(s); slides.push(s);
 
@@ -355,9 +407,10 @@ var Historico = (function () {
     var c = el(d.link ? 'a' : 'div', 'h-card');
     if (d.link) { c.href = d.link; c.target = '_blank'; c.rel = 'noopener noreferrer'; }
     var img = el('div', 'h-img');
-    if (d.imagem) {
+    var fonte = d.imagem || d.poster || d.arte;
+    if (fonte) {
       var im = document.createElement('img');
-      im.src = d.imagem; im.alt = ''; im.loading = 'lazy';
+      im.src = fonte; im.alt = ''; im.loading = 'lazy';
       im.addEventListener('error', function () { im.remove(); });
       img.appendChild(im);
     }
@@ -484,4 +537,224 @@ carregarNovidades().then(function (todas) {
       setTimeout(function () { btn.textContent = original; btn.classList.remove('ok'); status.textContent = ''; }, 2000);
     });
   });
+})();
+
+/* ---------- 10. Natal: neve, luzinhas, fundo decorativo e música ---------- */
+(function () {
+  if (!NATAL || (NATAL_ATE && new Date() > new Date(NATAL_ATE + 'T23:59:59'))) return;
+  var html = document.documentElement, body = document.body;
+  var reduzir = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var ligado = true;
+
+  /* --- fundo decorativo: luzes vermelhas, bokeh, brilhos, árvore e coruja (tudo ATRÁS do conteúdo, sem cliques) --- */
+  var fundo = document.createElement('div'); fundo.className = 'natal-fundo'; fundo.setAttribute('aria-hidden', 'true');
+
+  ['g1', 'g2', 'g3', 'g4'].forEach(function (g) { fundo.appendChild(el('span', 'nf-glow ' + g)); });
+
+  // luzes desfocadas (bokeh) que sobem devagar: vermelho, dourado e um pouco de azul
+  var COR_BOKEH = ['rgba(255,60,70,.9)', 'rgba(255,200,90,.85)', 'rgba(255,90,90,.85)', 'rgba(255,255,255,.7)', 'rgba(230,30,60,.9)', 'rgba(110,180,255,.6)'];
+  var QTD_BOKEH = window.innerWidth < 640 ? 9 : 18;
+  for (var q = 0; q < QTD_BOKEH; q++) {
+    var bk = el('span', 'nf-bokeh'), t = 38 + Math.random() * 110;
+    bk.style.left = (Math.random() * 100) + '%';
+    bk.style.width = bk.style.height = t + 'px';
+    bk.style.setProperty('--c', COR_BOKEH[q % COR_BOKEH.length]);
+    bk.style.setProperty('--dx', (Math.random() * 120 - 60) + 'px');
+    bk.style.animationDuration = (22 + Math.random() * 26) + 's';
+    bk.style.animationDelay = (-Math.random() * 40) + 's';   // atraso negativo: já começam espalhados pela tela
+    fundo.appendChild(bk);
+  }
+
+  // pontinhos que piscam (vermelho, dourado, azul, branco)
+  var COR_BRILHO = ['#ff4d4d', '#ffd54a', '#ff6b6b', '#cfe6ff', '#ffffff', '#ff3b3b'];
+  var QTD_BRILHOS = window.innerWidth < 640 ? 16 : 30;
+  for (var k = 0; k < QTD_BRILHOS; k++) {
+    var br = el('span', 'nf-brilho'), tam = 3 + Math.random() * 4;
+    br.style.left = (Math.random() * 100) + '%';
+    br.style.top = (Math.random() * 100) + '%';
+    br.style.width = br.style.height = tam + 'px';
+    br.style.setProperty('--c', COR_BRILHO[k % COR_BRILHO.length]);
+    br.style.animationDelay = (Math.random() * 3.2) + 's';
+    br.style.animationDuration = (2.2 + Math.random() * 2.6) + 's';
+    fundo.appendChild(br);
+  }
+
+  // árvore de Natal com pisca-pisca, estrela e presentes (SVG desenhado no código: não precisa de arquivo)
+  var arvore = el('div', 'nf-arvore');
+  arvore.innerHTML =
+    '<svg viewBox="0 0 260 340" fill="none" xmlns="http://www.w3.org/2000/svg" focusable="false">' +
+      '<g class="nf-estrela"><path d="M130 10l10 21 23 3-17 16 4 23-20-11-20 11 4-23-17-16 23-3z" fill="#ffd54a"/></g>' +
+      '<path d="M130 52L76 134h108z" fill="#2f9e5b"/>' +
+      '<path d="M130 96L60 196h140z" fill="#27894e"/>' +
+      '<path d="M130 146L42 262h176z" fill="#1f7a43"/>' +
+      '<path d="M130 52L104 134h26z M130 96L96 196h34z M130 146L84 262h46z" fill="#fff" opacity=".07"/>' +
+      '<rect x="114" y="262" width="32" height="34" rx="4" fill="#8a5a2b"/>' +
+      '<path d="M84 124q46 16 92 0M70 182q60 20 120 0M54 248q76 24 152 0" stroke="#ffd54a" stroke-width="3" stroke-linecap="round" stroke-dasharray="1 9"/>' +
+      '<circle class="nf-bola" cx="112" cy="112" r="6" fill="#ff4d4d"/>' +
+      '<circle class="nf-bola" cx="146" cy="136" r="6" fill="#3fb6ff" style="animation-delay:.6s"/>' +
+      '<circle class="nf-bola" cx="96" cy="174" r="7" fill="#ffd54a" style="animation-delay:1.1s"/>' +
+      '<circle class="nf-bola" cx="160" cy="184" r="7" fill="#ff4d4d" style="animation-delay:.3s"/>' +
+      '<circle class="nf-bola" cx="122" cy="214" r="7" fill="#3fb6ff" style="animation-delay:1.5s"/>' +
+      '<circle class="nf-bola" cx="76" cy="240" r="8" fill="#ff4d4d" style="animation-delay:.9s"/>' +
+      '<circle class="nf-bola" cx="172" cy="246" r="8" fill="#ffd54a" style="animation-delay:.2s"/>' +
+      '<circle class="nf-bola" cx="130" cy="254" r="6" fill="#ff4d4d" style="animation-delay:1.3s"/>' +
+      '<circle class="nf-bola" cx="130" cy="84" r="5" fill="#ffd54a" style="animation-delay:.4s"/>' +
+      '<rect x="40" y="292" width="52" height="42" rx="4" fill="#d62839"/><rect x="62" y="292" width="8" height="42" fill="#ffd54a"/><rect x="40" y="308" width="52" height="8" fill="#ffd54a"/>' +
+      '<rect x="168" y="304" width="46" height="30" rx="4" fill="#1a7cff"/><rect x="188" y="304" width="7" height="30" fill="#fff"/><rect x="168" y="315" width="46" height="7" fill="#fff"/>' +
+      '<rect x="98" y="308" width="36" height="26" rx="4" fill="#2fb36b"/><rect x="113" y="308" width="6" height="26" fill="#ffd54a"/>' +
+    '</svg>';
+  fundo.appendChild(arvore);
+
+  // coruja de Natal (imagem na pasta do site; se não existir, simplesmente não aparece)
+  if (CORUJA_NATAL) {
+    var coruja = el('img', 'nf-coruja');
+    coruja.src = CORUJA_NATAL; coruja.alt = ''; coruja.decoding = 'async';
+    coruja.addEventListener('error', function () { coruja.remove(); });
+    fundo.appendChild(coruja);
+  }
+  fundo.appendChild(el('div', 'nf-veu'));   // véu fosco: protege o centro da tela onde ficam os textos
+  body.insertBefore(fundo, body.firstChild);
+
+  /* --- neve (canvas por cima da página, sem pegar cliques) --- */
+  var cv = document.createElement('canvas'); cv.className = 'neve-canvas'; cv.setAttribute('aria-hidden', 'true');
+  body.appendChild(cv);
+  var cx = cv.getContext && cv.getContext('2d'), flocos = [], W = 0, H = 0, raf = null;
+  function novoFloco(aleat) {
+    return { x: Math.random() * W, y: aleat ? Math.random() * H : -8, r: 1 + Math.random() * 2.4, v: .35 + Math.random() * .9,
+             a: Math.random() * 6.28, s: .004 + Math.random() * .012, o: .3 + Math.random() * .45 };
+  }
+  function medir() {
+    if (!cx) return;
+    var d = Math.min(window.devicePixelRatio || 1, 2);
+    W = window.innerWidth; H = window.innerHeight;
+    cv.width = W * d; cv.height = H * d; cx.setTransform(d, 0, 0, d, 0, 0);
+    var n = Math.round(Math.min(W / 16, 70));
+    while (flocos.length < n) flocos.push(novoFloco(true));
+    flocos.length = n;
+  }
+  function desenhar(mover) {
+    if (!cx) return;
+    cx.clearRect(0, 0, W, H);
+    for (var i = 0; i < flocos.length; i++) {
+      var f = flocos[i];
+      if (mover) { f.y += f.v; f.a += f.s; f.x += Math.sin(f.a) * .6; if (f.y > H + 6) { flocos[i] = novoFloco(false); continue; } }
+      cx.beginPath(); cx.fillStyle = 'rgba(255,255,255,' + f.o + ')'; cx.arc(f.x, f.y, f.r, 0, 6.283); cx.fill();
+    }
+  }
+  function quadro() { desenhar(true); raf = requestAnimationFrame(quadro); }
+  function pararNeve() { if (raf) { cancelAnimationFrame(raf); raf = null; } }
+  function iniciarNeve() { pararNeve(); medir(); if (reduzir) desenhar(false); else if (cx && !document.hidden) raf = requestAnimationFrame(quadro); }
+  document.addEventListener('visibilitychange', function () { if (ligado) { if (document.hidden) pararNeve(); else iniciarNeve(); } });
+
+  /* --- pisca-pisca no topo da página --- */
+  var luzes = document.createElement('div'); luzes.className = 'luzes'; luzes.setAttribute('aria-hidden', 'true');
+  var conteudo = document.getElementById('conteudo');
+  if (conteudo) conteudo.insertBefore(luzes, conteudo.firstChild);
+  var CORES = ['#ff4d4d', '#ffd54a', '#3fb6ff', '#4cd964'];
+  function montarLuzes() {
+    luzes.innerHTML = '';
+    var w = luzes.clientWidth || window.innerWidth, passo = w < 600 ? 30 : 42, n = Math.floor(w / passo);
+    for (var i = 0; i < n; i++) {
+      var b = document.createElement('i');
+      b.style.left = (i * passo + passo / 2) + 'px';
+      b.style.top = (3 + 9 * Math.abs(Math.sin(i * Math.PI / 4))) + 'px';
+      b.style.setProperty('--c', CORES[i % 4]);
+      b.style.animationDelay = ((i % 4) * .45) + 's';
+      luzes.appendChild(b);
+    }
+  }
+
+  /* --- música: melodia gerada no navegador (Jingle Bells e We Wish You a Merry Christmas, domínio público) --- */
+  var Musica = (function () {
+    var ctx = null, saida = null, timer = null, prox = 0, tocando = false, arq = null;
+    var BATIDA = 60 / 100;   // andamento calmo
+    var F = { C4: 261.63, D4: 293.66, E4: 329.63, F4: 349.23, G4: 392, A4: 440, B4: 493.88, C5: 523.25, 'F#4': 369.99 };
+    var A1 = 'E4:1 E4:1 E4:2 E4:1 E4:1 E4:2 E4:1 G4:1 C4:1.5 D4:.5 E4:4 ';
+    var B1 = 'F4:1 F4:1 F4:1.5 F4:.5 F4:1 E4:1 E4:1 E4:.5 E4:.5 ';
+    var TEXTO = A1 + B1 + 'E4:1 D4:1 D4:1 E4:1 D4:2 G4:2 ' + A1 + B1 + 'G4:1 G4:1 F4:1 D4:1 C4:4 R:2 ' +
+      'D4:1 G4:1 G4:.5 A4:.5 G4:.5 F#4:.5 E4:1 E4:1 E4:1 A4:1 A4:.5 B4:.5 A4:.5 G4:.5 F#4:1 D4:1 D4:1 ' +
+      'B4:1 B4:.5 C5:.5 B4:.5 A4:.5 G4:1 E4:1 D4:.5 D4:.5 E4:1 A4:1 F#4:1 G4:3 R:6';
+    var SEQ = [], TOTAL = 0;
+    TEXTO.trim().split(/\s+/).forEach(function (p) {
+      var q = p.split(':'), d = parseFloat(q[1]);
+      if (q[0] !== 'R') SEQ.push({ f: F[q[0]], t: TOTAL, d: d });
+      TOTAL += d;
+    });
+    function nota(f, t, d) {
+      var dur = Math.max(d, .6) * 2.2, g = ctx.createGain();
+      g.gain.setValueAtTime(.0001, t);
+      g.gain.exponentialRampToValueAtTime(.5, t + .01);
+      g.gain.exponentialRampToValueAtTime(.0001, t + dur);
+      g.connect(saida);
+      [[1, 1], [2, .28], [3, .1], [5.4, .04]].forEach(function (p) {
+        var o = ctx.createOscillator(), gg = ctx.createGain();
+        o.type = 'sine'; o.frequency.value = f * p[0]; gg.gain.value = p[1];
+        o.connect(gg); gg.connect(g); o.start(t); o.stop(t + dur + .1);
+      });
+    }
+    function agendar() {
+      SEQ.forEach(function (n) { nota(n.f, prox + n.t * BATIDA, n.d * BATIDA); });
+      prox += TOTAL * BATIDA;
+    }
+    function vigiar() { if (ctx && ctx.currentTime > prox - 3) agendar(); }
+    function ligar() {
+      if (MUSICA_ARQUIVO) {
+        if (!arq) { arq = new Audio(MUSICA_ARQUIVO); arq.loop = true; arq.volume = Math.min(1, MUSICA_VOLUME * 2.5); }
+        arq.play(); tocando = true; return true;
+      }
+      var AC = window.AudioContext || window.webkitAudioContext;
+      if (!AC) return false;
+      if (!ctx) {
+        ctx = new AC();
+        saida = ctx.createGain(); saida.gain.setValueAtTime(.0001, ctx.currentTime); saida.gain.linearRampToValueAtTime(MUSICA_VOLUME, ctx.currentTime + 3);   // entra aos poucos
+        var atraso = ctx.createDelay(), fb = ctx.createGain();
+        atraso.delayTime.value = .4; fb.gain.value = .38;   // eco suave, som de caixinha de música
+        saida.connect(ctx.destination); saida.connect(atraso); atraso.connect(fb); fb.connect(atraso); atraso.connect(ctx.destination);
+        prox = ctx.currentTime + .3; agendar();
+      }
+      ctx.resume();
+      if (!timer) timer = setInterval(vigiar, 700);
+      tocando = true; return true;
+    }
+    function pausar() {
+      if (arq) arq.pause();
+      if (ctx) ctx.suspend();
+      if (timer) { clearInterval(timer); timer = null; }
+      tocando = false;
+    }
+    return { ligar: ligar, pausar: pausar, tocando: function () { return tocando; } };
+  })();
+
+  /* --- música: começa sozinha no primeiro clique/toque em qualquer lugar do site (os navegadores não deixam tocar antes) --- */
+  var musicaIniciada = false;
+  if (MUSICA) {
+    var EVENTOS = ['pointerdown', 'touchstart', 'keydown'];
+    var primeiro = function () {
+      if (musicaIniciada) return;
+      if (Musica.ligar()) {
+        musicaIniciada = true;
+        EVENTOS.forEach(function (e) { document.removeEventListener(e, primeiro, true); });
+      }
+    };
+    EVENTOS.forEach(function (e) { document.addEventListener(e, primeiro, true); });
+    // pausa quando a aba fica escondida e volta quando a pessoa retorna
+    document.addEventListener('visibilitychange', function () {
+      if (!musicaIniciada) return;
+      if (document.hidden) Musica.pausar(); else Musica.ligar();
+    });
+  }
+
+  function aplicar() {
+    body.classList.add('natal');
+    html.setAttribute('data-theme', 'dark');
+    iniciarNeve(); montarLuzes();
+  }
+
+  var rt = null;
+  window.addEventListener('resize', function () {
+    if (!ligado) return;
+    medir(); if (reduzir) desenhar(false);
+    clearTimeout(rt); rt = setTimeout(montarLuzes, 200);
+  });
+  aplicar();
 })();
