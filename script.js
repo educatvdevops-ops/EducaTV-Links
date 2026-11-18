@@ -1,73 +1,52 @@
 /* ==========================================================
    EDUCATV CAMPINAS - SCRIPT
-   Índice:
-   0. CONFIGURAÇÃO (é aqui que você liga a planilha e o calendário)
+   0. CONFIGURAÇÃO
    1. Copiar texto
    2. Menu e telas
-   2b. Links extras (entram no fim da lista de cada tela)
+   2b. Links extras
    3. Busca de links
    4. Novidades: leitura da planilha na nuvem
    5. Carrossel de destaques
    6. Histórico de novidades
    7. Calendário
-   8. Botão "copiar endereço" de cada link
+   8. Botão "copiar endereço"
    9. Botões "Copiar senha" (Wi-Fi)
-   10. Natal: neve, luzinhas, fundo decorativo e música
+   10. Natal
+   11. Galeria da Duda
    ========================================================== */
 
 /* ---------- 0. CONFIGURAÇÃO ---------- */
-
-// PLANILHA DE NOVIDADES (o "banco de dados" na nuvem)
-// Cole aqui o endereço do "App da Web" gerado pelo criar-banco-educatv.gs
-// (termina em /exec). Também funciona com o link CSV de uma planilha publicada na web.
-// Colunas da planilha: data, categoria, titulo, texto, detalhe, link, rotulo, imagem, carrossel
-// Enquanto estiver vazio, o site mostra as novidades da lista EXEMPLOS lá embaixo.
 var PLANILHA_CSV = '';
-
-// Quantas novidades (as mais recentes) aparecem no carrossel
 var MAX_CARROSSEL = 6;
-
-// Tempo entre um destaque e outro, em milissegundos (7000 = 7 segundos)
 var INTERVALO_MS = 7000;
 
-// Calendários que aparecem juntos no quadro da agenda.
-//   id  : o endereço do calendário (Google Agenda > Configurações > "Integrar agenda" > "ID da agenda")
-//   cor : a cor dos eventos desse calendário
 var CALENDARIOS = [
   { id: 'c_b1aa0562e71052b51f68b455e535c17e009200826cbaa1f8fff14104ddb71737@group.calendar.google.com', cor: '#039BE5' },
   { id: 'c_b64bcad2d873c948051f2be7d8cf62cf117a878de730bc05a75972da22e894a1@group.calendar.google.com', cor: '#8E24AA' },
   { id: 'educatv@educa.campinas.sp.gov.br', cor: '#F4511E' },
   { id: 'c_8833282d48e3607c15261804938412815227f6935dfae49f8b337721a8a155f7@group.calendar.google.com', cor: '#33B679' },
   { id: 'c_12650e8c58933a7b0eeec08ee83b25fa54df1972b13fd9a66ea725870583f27a@group.calendar.google.com', cor: '#E67C73' },
-  { id: 'pt-br.brazilian#holiday@group.v.calendar.google.com', cor: '#0B8043' }   // feriados do Brasil
+  { id: 'pt-br.brazilian#holiday@group.v.calendar.google.com', cor: '#0B8043' }
 ];
 
-// Como o calendário abre: 'MONTH' (mês), 'WEEK' (semana) ou 'AGENDA' (lista de próximos eventos)
 var CALENDARIO_MODO = 'MONTH';
 
-// Natal: neve, luzinhas, fundo azul-noite com luzes vermelhas, árvore, coruja e música suave (sem botões).
-// Liga/desliga em NATAL.
 var NATAL = true;
-var NATAL_ATE = '2027-01-06';            // depois dessa data o clima de Natal some sozinho (AAAA-MM-DD)
-var CORUJA_NATAL = 'coruja-natal.png';   // imagem da coruja que aparece esmaecida no fundo (deixe na pasta do site). Vazio = sem coruja
-var MUSICA_ARQUIVO = '';                 // opcional: nome de um .mp3 na pasta do site. Vazio = melodia gerada pelo navegador (não precisa de arquivo)
-var MUSICA = true;                       // true = a música suave de Natal toca no primeiro clique/toque em qualquer lugar do site
-var MUSICA_VOLUME = .12;                 // volume da música (0 a 1). Quanto menor, mais suave
+var NATAL_ATE = '2027-01-06';
+var CORUJA_NATAL = 'coruja-natal.png';
+var MUSICA_ARQUIVO = '';
+var MUSICA = true;
+var MUSICA_VOLUME = .12;
 
-// Novidades usadas enquanto a planilha não estiver ligada (ou estiver fora do ar e não houver cópia salva).
-// Mesmas colunas da planilha: data, categoria, titulo, texto, detalhe, link, rotulo, imagem, carrossel
-// Campo extra "arte": imagem que ocupa o slide inteiro (sem texto). Clique abre a imagem grande.
-// Campo extra "poster": nome de uma imagem que aparece inteira ao lado do texto (ex.: cartazes e calendários).
 var EXEMPLOS = [
   { data: '2026-11-17', categoria: 'EducaTV', titulo: 'Feliz Natal! Boas Festas 2026', texto: '', detalhe: '', link: 'natal-2026.jpg', rotulo: 'Ver imagem', imagem: '', arte: 'natal-2026.jpg', carrossel: 'sim' },
   { data: '2026-11-17', categoria: 'EducaTV', titulo: 'Calendário Geral: formações e reuniões da equipe', texto: '', detalhe: '', link: 'calendario-geral.jpg', rotulo: 'Ver calendário completo', imagem: '', poster: 'calendario-geral.jpg', carrossel: 'sim' },
-  { data: '2026-11-16', categoria: 'EducaTV', titulo: 'Aniversário da EducaTV', texto: 'Confira os materiais e a identidade visual da EducaTV Campinas.', detalhe: '', link: 'https://www.instagram.com/reel/DfvxDEKuC5L/', rotulo: 'Assistir no Instagram', rotulo: 'Saiba mais', imagem: '', carrossel: 'sim' },
+  { data: '2026-11-16', categoria: 'EducaTV', titulo: 'Aniversário da EducaTV', texto: 'Confira os materiais e a identidade visual da EducaTV Campinas.', detalhe: '', link: 'https://educatvdevops-ops.github.io/EducaTV-Links/#materiais', rotulo: 'Saiba mais', imagem: '', carrossel: 'sim' },
   { data: '', categoria: 'Prefeitura', titulo: 'Projeto audiovisual da EducaTV resgata memória do antigo Ateneu e debate educação patrimonial em Campinas', texto: 'Matéria da Prefeitura de Campinas sobre o projeto audiovisual da EducaTV.', detalhe: 'Portal da Prefeitura de Campinas', link: 'https://campinas.sp.gov.br/noticias/153511', rotulo: 'Ler matéria', imagem: '', carrossel: 'sim' },
   { data: '', categoria: 'Educação', titulo: 'Práticas Restaurativas e Cultura de Paz: evento especial da SME Campinas', texto: 'Assista à transmissão do evento especial no canal da SME Campinas.', detalhe: 'YouTube · SME Campinas', link: 'https://www.youtube.com/live/IsbnOa2nDaY', rotulo: 'Assistir no YouTube', imagem: '', carrossel: 'sim' }
 ];
 
 /* ---------- 1. Copiar texto ---------- */
-// Devolve uma Promise que resolve com true (copiou) ou false (não conseguiu)
 function copiarTexto(texto) {
   function antigo() {
     var t = document.createElement('textarea');
@@ -87,7 +66,7 @@ function copiarTexto(texto) {
 }
 
 /* ---------- 2. Menu e telas ---------- */
-var TELAS = ['inicio', 'materiais', 'producao', 'sistemas', 'processos', 'historico'];
+var TELAS = ['inicio', 'materiais', 'producao', 'sistemas', 'processos', 'historico', 'galeria'];
 var views = document.querySelectorAll('.view');
 var navLinks = document.querySelectorAll('#menu a');
 var filtro = document.getElementById('lk-filtro');
@@ -103,7 +82,7 @@ function mostrarTela() {
   Array.prototype.forEach.call(navLinks, function (a) {
     if (a.getAttribute('href') === '#' + t) {
       a.setAttribute('aria-current', 'page');
-      var nav = a.parentNode;   // no celular, rola o menu até o item ativo ficar à vista
+      var nav = a.parentNode;
       nav.scrollLeft = a.offsetLeft - (nav.clientWidth - a.offsetWidth) / 2;
     } else a.removeAttribute('aria-current');
   });
@@ -112,8 +91,7 @@ function mostrarTela() {
 window.addEventListener('hashchange', function () { limparBusca(); mostrarTela(); });
 mostrarTela();
 
-/* ---------- 2b. Links extras (entram no fim da lista de cada tela) ---------- */
-// Para adicionar outro link no futuro, copie uma linha.  tela: materiais | producao | sistemas | processos
+/* ---------- 2b. Links extras ---------- */
 var LINKS_EXTRA = [
   { tela: 'materiais', tipo: 'PDF', nome: 'Catálogo de Produções: Eixo Equidade 2026', texto: 'Temas do eixo Equidade nas produções da EducaTV Campinas.', link: 'https://drive.google.com/file/d/14ZbMjOw6B-t-ONy_PAGfDvCHbtJEZ6x7/view' },
   { tela: 'materiais', tipo: 'PDF', nome: 'Catálogo EducaTV 2022–2025', texto: 'Catálogo com as produções da EducaTV de 2022 a 2025.', link: 'https://drive.google.com/file/d/1Cz7agcU-zxtIIULdTEW-SSJmvCNwM-wm/view' },
@@ -137,8 +115,7 @@ var viewsLinks = document.querySelectorAll('.lk-view');
 var vazio = document.getElementById('lk-vazio');
 var resultado = document.getElementById('lk-resultado');
 
-// tira acentos e maiúsculas para a busca ser tolerante
-function norm(s) { return String(s).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, ''); }
+function norm(s) { return String(s).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''); }
 
 function limparBusca() {
   filtro.value = '';
@@ -169,7 +146,6 @@ filtro.addEventListener('input', function () {
 /* ---------- 4. Novidades: leitura da planilha na nuvem ---------- */
 var CACHE_CHAVE = 'educatv_novidades_csv';
 
-// pequeno criador de elementos: el('div', 'classe', 'texto')
 function el(tag, cls, txt) {
   var e = document.createElement(tag);
   if (cls) e.className = cls;
@@ -177,7 +153,6 @@ function el(tag, cls, txt) {
   return e;
 }
 
-// transforma o texto CSV em uma lista de linhas (aceita aspas e vírgulas dentro do texto)
 function lerCSV(t) {
   var linhas = [], lin = [], c = '', aspas = false, i, ch;
   for (i = 0; i < t.length; i++) {
@@ -196,7 +171,6 @@ function lerCSV(t) {
   return linhas;
 }
 
-// aceita 10/11/2026 ou 2026-11-10
 function lerData(s) {
   s = String(s || '').trim();
   var m = s.match(/^(\d{4})-(\d{1,2})-(\d{1,2})/);
@@ -206,7 +180,6 @@ function lerData(s) {
   return null;
 }
 
-// links de imagem do Google Drive viram endereço que funciona dentro de uma <img>/background
 function urlImagem(u) {
   u = String(u || '').trim();
   if (!u) return '';
@@ -241,10 +214,9 @@ function paraItens(linhas) {
   linhas.slice(1).forEach(function (l) {
     var o = {};
     cab.forEach(function (k, i) { o[k] = l[i] || ''; });
-    if (!String(o.titulo || '').trim()) return;   // ignora linhas vazias
+    if (!String(o.titulo || '').trim()) return;
     lista.push(normalizar(o));
   });
-  // mais recentes primeiro; sem data vão para o fim
   lista.sort(function (a, b) { return (b.data ? b.data.getTime() : 0) - (a.data ? a.data.getTime() : 0); });
   return lista;
 }
@@ -255,7 +227,6 @@ function dadosExemplo() {
   return l;
 }
 
-// Busca a planilha. Se falhar, usa a última cópia salva no navegador; se não houver, os exemplos.
 function carregarNovidades() {
   if (!PLANILHA_CSV) return Promise.resolve(dadosExemplo());
   return fetch(PLANILHA_CSV)
@@ -273,7 +244,6 @@ function carregarNovidades() {
     });
 }
 
-// "Novo" aparece nas novidades dos últimos 7 dias
 function ehNovo(d) { return d.data && (Date.now() - d.data.getTime()) < 8 * 86400000 && d.data.getTime() <= Date.now() + 86400000; }
 function slug(s) { return norm(s).replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''); }
 function dataLonga(d) { return d.toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' }); }
@@ -290,7 +260,6 @@ var Carrossel = (function () {
   var atual = 0, timer = null, pausadoPeloUsuario = false, slides = [];
   var reduzir = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // monta (ou remonta) os slides a partir da lista de novidades
   function montar(lista) {
     parar();
     track.innerHTML = ''; dots.innerHTML = ''; slides = []; atual = 0;
@@ -366,7 +335,6 @@ var Carrossel = (function () {
   }
   btnPausa.addEventListener('click', function () { pausadoPeloUsuario = !pausadoPeloUsuario; atualizarBotaoPausa(); iniciar(); });
 
-  // pausa enquanto o mouse ou o foco estiverem no carrossel
   car.addEventListener('mouseenter', parar);
   car.addEventListener('mouseleave', iniciar);
   car.addEventListener('focusin', parar);
@@ -378,7 +346,6 @@ var Carrossel = (function () {
     if (e.key === 'ArrowLeft') { ir(atual - 1); iniciar(); }
   });
 
-  // arrastar com o dedo no celular
   var x0 = null;
   car.addEventListener('touchstart', function (e) { x0 = e.touches[0].clientX; }, { passive: true });
   car.addEventListener('touchend', function (e) {
@@ -387,7 +354,7 @@ var Carrossel = (function () {
     if (Math.abs(dx) > 45) { ir(atual + (dx < 0 ? 1 : -1)); iniciar(); }
   });
 
-  if (reduzir) pausadoPeloUsuario = true;   // quem pede menos movimento não recebe troca automática
+  if (reduzir) pausadoPeloUsuario = true;
   atualizarBotaoPausa();
   return { montar: montar };
 })();
@@ -461,7 +428,6 @@ var Historico = (function () {
   return { montar: montar };
 })();
 
-// mostra algo já, depois troca pelos dados da planilha
 Carrossel.montar([normalizar({ titulo: 'Carregando novidades…' })]);
 carregarNovidades().then(function (todas) {
   Carrossel.montar(todas.filter(function (d) { return d.carrossel; }).slice(0, MAX_CARROSSEL));
@@ -539,19 +505,17 @@ carregarNovidades().then(function (todas) {
   });
 })();
 
-/* ---------- 10. Natal: neve, luzinhas, fundo decorativo e música ---------- */
+/* ---------- 10. Natal ---------- */
 (function () {
   if (!NATAL || (NATAL_ATE && new Date() > new Date(NATAL_ATE + 'T23:59:59'))) return;
   var html = document.documentElement, body = document.body;
   var reduzir = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var ligado = true;
 
-  /* --- fundo decorativo: luzes vermelhas, bokeh, brilhos, árvore e coruja (tudo ATRÁS do conteúdo, sem cliques) --- */
   var fundo = document.createElement('div'); fundo.className = 'natal-fundo'; fundo.setAttribute('aria-hidden', 'true');
 
   ['g1', 'g2', 'g3', 'g4'].forEach(function (g) { fundo.appendChild(el('span', 'nf-glow ' + g)); });
 
-  // luzes desfocadas (bokeh) que sobem devagar: vermelho, dourado e um pouco de azul
   var COR_BOKEH = ['rgba(255,60,70,.9)', 'rgba(255,200,90,.85)', 'rgba(255,90,90,.85)', 'rgba(255,255,255,.7)', 'rgba(230,30,60,.9)', 'rgba(110,180,255,.6)'];
   var QTD_BOKEH = window.innerWidth < 640 ? 9 : 18;
   for (var q = 0; q < QTD_BOKEH; q++) {
@@ -561,11 +525,10 @@ carregarNovidades().then(function (todas) {
     bk.style.setProperty('--c', COR_BOKEH[q % COR_BOKEH.length]);
     bk.style.setProperty('--dx', (Math.random() * 120 - 60) + 'px');
     bk.style.animationDuration = (22 + Math.random() * 26) + 's';
-    bk.style.animationDelay = (-Math.random() * 40) + 's';   // atraso negativo: já começam espalhados pela tela
+    bk.style.animationDelay = (-Math.random() * 40) + 's';
     fundo.appendChild(bk);
   }
 
-  // pontinhos que piscam (vermelho, dourado, azul, branco)
   var COR_BRILHO = ['#ff4d4d', '#ffd54a', '#ff6b6b', '#cfe6ff', '#ffffff', '#ff3b3b'];
   var QTD_BRILHOS = window.innerWidth < 640 ? 16 : 30;
   for (var k = 0; k < QTD_BRILHOS; k++) {
@@ -579,7 +542,6 @@ carregarNovidades().then(function (todas) {
     fundo.appendChild(br);
   }
 
-  // árvore de Natal com pisca-pisca, estrela e presentes (SVG desenhado no código: não precisa de arquivo)
   var arvore = el('div', 'nf-arvore');
   arvore.innerHTML =
     '<svg viewBox="0 0 260 340" fill="none" xmlns="http://www.w3.org/2000/svg" focusable="false">' +
@@ -605,17 +567,15 @@ carregarNovidades().then(function (todas) {
     '</svg>';
   fundo.appendChild(arvore);
 
-  // coruja de Natal (imagem na pasta do site; se não existir, simplesmente não aparece)
   if (CORUJA_NATAL) {
     var coruja = el('img', 'nf-coruja');
     coruja.src = CORUJA_NATAL; coruja.alt = ''; coruja.decoding = 'async';
     coruja.addEventListener('error', function () { coruja.remove(); });
     fundo.appendChild(coruja);
   }
-  fundo.appendChild(el('div', 'nf-veu'));   // véu fosco: protege o centro da tela onde ficam os textos
+  fundo.appendChild(el('div', 'nf-veu'));
   body.insertBefore(fundo, body.firstChild);
 
-  /* --- neve (canvas por cima da página, sem pegar cliques) --- */
   var cv = document.createElement('canvas'); cv.className = 'neve-canvas'; cv.setAttribute('aria-hidden', 'true');
   body.appendChild(cv);
   var cx = cv.getContext && cv.getContext('2d'), flocos = [], W = 0, H = 0, raf = null;
@@ -646,7 +606,6 @@ carregarNovidades().then(function (todas) {
   function iniciarNeve() { pararNeve(); medir(); if (reduzir) desenhar(false); else if (cx && !document.hidden) raf = requestAnimationFrame(quadro); }
   document.addEventListener('visibilitychange', function () { if (ligado) { if (document.hidden) pararNeve(); else iniciarNeve(); } });
 
-  /* --- pisca-pisca no topo da página --- */
   var luzes = document.createElement('div'); luzes.className = 'luzes'; luzes.setAttribute('aria-hidden', 'true');
   var conteudo = document.getElementById('conteudo');
   if (conteudo) conteudo.insertBefore(luzes, conteudo.firstChild);
@@ -664,10 +623,9 @@ carregarNovidades().then(function (todas) {
     }
   }
 
-  /* --- música: melodia gerada no navegador (Jingle Bells e We Wish You a Merry Christmas, domínio público) --- */
   var Musica = (function () {
     var ctx = null, saida = null, timer = null, prox = 0, tocando = false, arq = null;
-    var BATIDA = 60 / 100;   // andamento calmo
+    var BATIDA = 60 / 100;
     var F = { C4: 261.63, D4: 293.66, E4: 329.63, F4: 349.23, G4: 392, A4: 440, B4: 493.88, C5: 523.25, 'F#4': 369.99 };
     var A1 = 'E4:1 E4:1 E4:2 E4:1 E4:1 E4:2 E4:1 G4:1 C4:1.5 D4:.5 E4:4 ';
     var B1 = 'F4:1 F4:1 F4:1.5 F4:.5 F4:1 E4:1 E4:1 E4:.5 E4:.5 ';
@@ -706,9 +664,9 @@ carregarNovidades().then(function (todas) {
       if (!AC) return false;
       if (!ctx) {
         ctx = new AC();
-        saida = ctx.createGain(); saida.gain.setValueAtTime(.0001, ctx.currentTime); saida.gain.linearRampToValueAtTime(MUSICA_VOLUME, ctx.currentTime + 3);   // entra aos poucos
+        saida = ctx.createGain(); saida.gain.setValueAtTime(.0001, ctx.currentTime); saida.gain.linearRampToValueAtTime(MUSICA_VOLUME, ctx.currentTime + 3);
         var atraso = ctx.createDelay(), fb = ctx.createGain();
-        atraso.delayTime.value = .4; fb.gain.value = .38;   // eco suave, som de caixinha de música
+        atraso.delayTime.value = .4; fb.gain.value = .38;
         saida.connect(ctx.destination); saida.connect(atraso); atraso.connect(fb); fb.connect(atraso); atraso.connect(ctx.destination);
         prox = ctx.currentTime + .3; agendar();
       }
@@ -725,7 +683,6 @@ carregarNovidades().then(function (todas) {
     return { ligar: ligar, pausar: pausar, tocando: function () { return tocando; } };
   })();
 
-  /* --- música: começa sozinha no primeiro clique/toque em qualquer lugar do site (os navegadores não deixam tocar antes) --- */
   var musicaIniciada = false;
   if (MUSICA) {
     var EVENTOS = ['pointerdown', 'touchstart', 'keydown'];
@@ -737,7 +694,6 @@ carregarNovidades().then(function (todas) {
       }
     };
     EVENTOS.forEach(function (e) { document.addEventListener(e, primeiro, true); });
-    // pausa quando a aba fica escondida e volta quando a pessoa retorna
     document.addEventListener('visibilitychange', function () {
       if (!musicaIniciada) return;
       if (document.hidden) Musica.pausar(); else Musica.ligar();
@@ -757,4 +713,52 @@ carregarNovidades().then(function (todas) {
     clearTimeout(rt); rt = setTimeout(montarLuzes, 200);
   });
   aplicar();
+})();
+
+/* ---------- 11. Galeria da Duda: visualizar e baixar fotos ---------- */
+(function () {
+  var grid = document.getElementById('gal-grid');
+  var lightbox = document.getElementById('gal-lightbox');
+  var imgLb = document.getElementById('gal-lightbox-img');
+  var baixarLb = document.getElementById('gal-lightbox-baixar');
+  var fechar = document.getElementById('gal-fechar');
+  if (!grid || !lightbox) return;
+
+  var ultimoFoco = null;
+
+  function abrir(img) {
+    ultimoFoco = document.activeElement;
+    var src = img.getAttribute('src');
+    var alt = img.getAttribute('alt') || '';
+    var nome = decodeURIComponent(src.split('/').pop());
+    imgLb.src = src;
+    imgLb.alt = alt;
+    baixarLb.href = src;
+    baixarLb.setAttribute('download', nome);
+    lightbox.hidden = false;
+    document.body.style.overflow = 'hidden';
+    fechar.focus();
+  }
+
+  function fecharLb() {
+    lightbox.hidden = true;
+    imgLb.src = '';
+    document.body.style.overflow = '';
+    if (ultimoFoco) ultimoFoco.focus();
+  }
+
+  grid.addEventListener('click', function (e) {
+    var img = e.target.closest('.gal-item img');
+    if (img) { e.preventDefault(); abrir(img); }
+  });
+
+  fechar.addEventListener('click', fecharLb);
+
+  lightbox.addEventListener('click', function (e) {
+    if (e.target === lightbox) fecharLb();
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (!lightbox.hidden && e.key === 'Escape') fecharLb();
+  });
 })();
