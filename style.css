@@ -1,21 +1,21 @@
 /* ==========================================================
    EDUCATV CAMPINAS - ESTILOS
-   Índice:
-   1. Variáveis e tema (claro/escuro)
+   1. Variáveis e tema
    2. Base e utilitários
    3. Topo, menu e busca
-   4. Telas (início e caixas de links)
-   5. Blocos da tela inicial (títulos)
-   6. Carrossel de destaques
+   4. Telas
+   5. Blocos da tela inicial
+   6. Carrossel
    7. Calendário
    8. Wi-Fi e QR Codes
-   9. Links em blocos (grandes e responsivos)
+   9. Links em blocos
    10. Rodapé
-   11. Histórico de novidades
-   12. Slide com cartaz (imagem inteira ao lado do texto)
-   12b. Slide com arte inteira (CORRIGIDO: responsivo desktop/celular)
+   11. Histórico
+   12. Slide com cartaz
+   12b. Slide com arte inteira
    13. Natal (fundo, neve, luzinhas)
-   14. Natal: camadas decorativas (árvore, coruja, bokeh, luzes vermelhas, véu fosco)
+   14. Natal: camadas decorativas
+   15. Galeria da Duda
    ========================================================== */
 
 /* ---------- 1. Variáveis e tema ---------- */
@@ -79,11 +79,11 @@ h1, h2, h3 { font-family: var(--head); margin: 0; line-height: 1.12; }
 @media (max-width: 480px) { .brand .owl { height: 46px; } .brand .word { height: 32px; } }
 @media (max-width: 480px) { .nav { justify-content: space-between; gap: 0; } .nav a { padding: .55rem .45rem; font-size: .9rem; } .nav a[aria-current="page"]::after { left: .45rem; right: .45rem; } }
 
-/* ---------- 4. Telas (início e caixas de links) ---------- */
+/* ---------- 4. Telas ---------- */
 .view { display: none; padding: clamp(1.4rem, 3.5vw, 2.4rem) 0 clamp(2.5rem, 6vw, 4rem); }
 .view.on { display: block; }
 body.buscando .view.lk-view { display: block; padding-bottom: 0; }
-body.buscando #v-inicio, body.buscando #v-historico { display: none; }
+body.buscando #v-inicio, body.buscando #v-historico, body.buscando #v-galeria { display: none; }
 body.buscando main { padding-bottom: clamp(2.5rem, 6vw, 4rem); }
 .res { width: min(1100px, 100% - 2.5rem); margin: 1.2rem auto 0; color: var(--muted); font-weight: 700; }
 
@@ -96,7 +96,7 @@ body.buscando main { padding-bottom: clamp(2.5rem, 6vw, 4rem); }
 .h2 b { color: var(--blue); font-weight: 700; }
 .sub { color: var(--muted); margin-top: .6rem; max-width: 58ch; }
 
-/* ---------- 6. Carrossel de destaques ---------- */
+/* ---------- 6. Carrossel ---------- */
 .car { --slide-h: clamp(340px, 48vw, 540px); position: relative; border-radius: 28px; box-shadow: var(--shadow); color: #fff; background: var(--navy); }
 .car-view { overflow: hidden; border-radius: 28px; }
 .car-track { display: flex; transition: transform .55s ease; }
@@ -114,7 +114,7 @@ body.buscando main { padding-bottom: clamp(2.5rem, 6vw, 4rem); }
 .slide h2 { font-size: clamp(1.7rem, 4.2vw, 2.8rem); font-weight: 800; max-width: 22ch; text-shadow: 0 2px 12px rgba(0,0,0,.3); }
 .slide p { max-width: 56ch; color: #e8f0ff; font-size: 1.06rem; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
 .slide .btn { position: static; margin-top: .4rem; display: inline-block; text-decoration: none; font-weight: 800; font-size: .95rem; padding: .6rem 1.4rem; border-radius: 999px; background: #fff; color: var(--navy); }
-.slide .btn::after { content: ""; position: absolute; inset: 0; z-index: 1; }   /* o slide inteiro vira clicável */
+.slide .btn::after { content: ""; position: absolute; inset: 0; z-index: 1; }
 .slide .btn:hover { background: #e6f1ff; }
 .cat-podcast { background: var(--orange) !important; color: var(--navy) !important; }
 .cat-meio-ambiente { background: #2fb36b !important; color: #fff !important; }
@@ -163,46 +163,30 @@ body.buscando main { padding-bottom: clamp(2.5rem, 6vw, 4rem); }
 .lk-btn:hover { background: #3a92ff; }
 @media (max-width: 860px) { .wf-grid, .qr-grid { grid-template-columns: 1fr; max-width: 360px; margin-inline: auto; } }
 
-/* ---------- 9. Links em blocos (grandes e responsivos) ---------- */
-/* As telas de links e o histórico usam quase toda a largura da tela */
+/* ---------- 9. Links em blocos ---------- */
 .lk-view .wrap, #v-historico .wrap { width: min(1320px, 100% - 2rem); }
-
-/* Caixa da seção (título + descrição) */
 .lk-group { background: var(--surface); border: 1px solid var(--line); border-radius: 24px; box-shadow: var(--shadow); padding: clamp(1.2rem, 2.5vw, 2.2rem); width: 100%; max-width: none; margin-inline: auto; }
 .lk-group h2 { font-size: clamp(1.4rem, 2.4vw, 1.9rem); font-weight: 700; display: flex; align-items: center; gap: 1rem; }
 .lk-ico { flex: none; display: grid; place-items: center; width: clamp(44px, 5vw, 56px); height: clamp(44px, 5vw, 56px); border-radius: 16px; background: rgba(26,124,255,.12); color: var(--blue); }
 .lk-ico svg { width: 55%; height: 55%; }
 .lk-desc { color: var(--muted); font-size: clamp(1rem, 1.3vw, 1.12rem); margin: .8rem 0 0; }
-
-/* Lista: cada link é um bloco grande */
 .lk-list { list-style: none; margin: clamp(1.2rem, 2vw, 1.8rem) 0 0; padding: 0; display: grid; gap: clamp(.9rem, 1.6vw, 1.3rem); }
 .lk-list li { display: flex; align-items: stretch; min-height: clamp(110px, 12vw, 150px); background: var(--bg); border: 2px solid var(--line); border-radius: 20px; overflow: hidden; transition: border-color .15s, box-shadow .15s, transform .15s; }
 .lk-list li:hover { border-color: var(--blue); box-shadow: 0 10px 26px rgba(26,124,255,.2); transform: translateY(-2px); }
-
-/* O bloco inteiro é o link: quadrado à esquerda (tipo + título) e descrição ao lado */
 .lk-list li > a { flex: 1; min-width: 0; display: grid; grid-template-columns: clamp(230px, 30%, 380px) 1fr; text-decoration: none; }
 .lk-side { display: flex; flex-direction: column; justify-content: center; align-items: flex-start; gap: .8rem; padding: clamp(1.1rem, 2vw, 1.7rem); background: var(--ice); border-right: 2px solid var(--line); }
 .lk-tag { font-family: var(--head); font-weight: 700; font-size: clamp(.78rem, 1vw, .92rem); letter-spacing: .07em; text-transform: uppercase; color: #fff; background: var(--blue); padding: .45rem 1rem; border-radius: 10px; }
 .lk-name { font-weight: 800; font-size: clamp(1.1rem, 1.7vw, 1.4rem); line-height: 1.25; color: var(--text); overflow-wrap: anywhere; }
 .lk-text { display: flex; align-items: center; padding: clamp(1.1rem, 2vw, 1.8rem); color: var(--muted); font-size: clamp(1rem, 1.35vw, 1.18rem); line-height: 1.55; }
 .lk-list li > a:hover .lk-name { color: var(--blue); }
-
-/* Botão de copiar o endereço (criado pelo script.js) */
 .lk-copy { flex: none; align-self: center; display: grid; place-items: center; width: 52px; height: 52px; margin: 0 clamp(.6rem, 1.5vw, 1.2rem); border: 0; border-radius: 50%; background: none; color: var(--muted); cursor: pointer; transition: background .15s, color .15s; }
 .lk-copy svg { width: 24px; height: 24px; }
 .lk-copy:hover { background: rgba(26,124,255,.12); color: var(--blue); }
 .lk-copy.ok { background: #1f9d55; color: #fff; }
-
 .lk-empty { display: none; width: min(1100px, 100% - 2.5rem); margin: 0 auto; text-align: center; color: var(--muted); padding: 2rem 0; font-weight: 700; }
 .lk-empty.show { display: block; }
 body.buscando .lk-view .lk-group { margin-bottom: 1.3rem; }
-
-/* Tablet */
-@media (max-width: 900px) {
-  .lk-list li > a { grid-template-columns: 210px 1fr; }
-}
-
-/* Celular: o quadrado fica em cima e a descrição embaixo, com botões fáceis de tocar */
+@media (max-width: 900px) { .lk-list li > a { grid-template-columns: 210px 1fr; } }
 @media (max-width: 640px) {
   .lk-view .wrap, #v-historico .wrap { width: calc(100% - 1.2rem); }
   .lk-group { padding: 1rem .9rem 1.1rem; border-radius: 20px; }
@@ -220,7 +204,7 @@ footer .brand { margin-right: 0; }
 footer .brand .owl { height: 44px; } footer .brand .word { height: 32px; }
 footer p { font-size: .9rem; }
 
-/* ---------- 11. Histórico de novidades ---------- */
+/* ---------- 11. Histórico ---------- */
 .h-filtros { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 1.4rem; }
 .h-filtros input, .h-filtros select { font: inherit; font-size: .97rem; color: var(--text); background: var(--surface); border: 2px solid var(--line); border-radius: 999px; padding: .55rem 1.1rem; }
 .h-filtros input { flex: 1; min-width: 220px; }
@@ -239,7 +223,7 @@ a.h-card:hover { border-color: var(--blue); transform: translateY(-2px); }
 .h-go { margin-top: auto; padding-top: .3rem; font-weight: 800; color: var(--blue); font-size: .92rem; }
 .h-det { font-size: .86rem !important; font-weight: 700; color: var(--blue) !important; }
 
-/* ---------- 12. Slide com cartaz (imagem inteira ao lado de uma frase) ---------- */
+/* ---------- 12. Slide com cartaz ---------- */
 .slide.com-poster { flex-direction: row; align-items: center; justify-content: space-between; gap: clamp(1rem, 4vw, 3rem); padding-top: 1.2rem; padding-bottom: 2.8rem; }
 .slide .slide-txt { position: static; display: flex; flex-direction: column; align-items: flex-start; gap: .9rem; flex: 1 1 0; min-width: 0; }
 .slide.com-poster .slide-meta { display: none; }
@@ -251,11 +235,7 @@ a.h-card:hover { border-color: var(--blue); transform: translateY(-2px); }
   .slide .slide-txt { flex: none; align-items: center; }
 }
 
-/* ---------- 12b. Slide com arte inteira ----------
-   A imagem aparece SEMPRE inteira (sem cortar), centralizada, com um fundo
-   desfocado da própria imagem.
-   - Desktop/tablet: a imagem ocupa a altura do carrossel (deixando espaço para os pontinhos).
-   - Celular: o slide ganha a altura da própria imagem (proporção original), sem sobrar faixa nem cortar. */
+/* ---------- 12b. Slide com arte inteira ---------- */
 .slide.com-arte { padding: .8rem .8rem 2.9rem; gap: 0; justify-content: center; align-items: center; overflow: hidden; background: var(--navy); }
 .slide .arte-bg { position: absolute; z-index: 0; top: -40px; left: -40px; width: calc(100% + 80px); height: calc(100% + 80px); max-width: none; object-fit: cover; filter: blur(26px) brightness(.62) saturate(1.2); }
 .slide .arte-img { position: relative; z-index: 1; width: 100%; height: calc(var(--slide-h) - 3.7rem); object-fit: contain; }
@@ -280,7 +260,7 @@ body.natal::before { content: ""; position: fixed; inset: 0; z-index: 0; pointer
 @keyframes estrelas { from { opacity: .25; } to { opacity: .7; } }
 .neve-canvas { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 30; pointer-events: none; }
 body.natal main { position: relative; }
-body.natal footer { position: relative; z-index: 1; }   /* o rodapé fica acima das camadas decorativas */
+body.natal footer { position: relative; z-index: 1; }
 body.natal .view { padding-top: clamp(2.4rem, 4vw, 3rem); }
 .luzes { position: absolute; left: 0; right: 0; top: 0; height: 30px; z-index: 2; pointer-events: none; overflow: hidden; }
 .luzes::before { content: ""; position: absolute; left: 0; right: 0; top: 2px; height: 2px; background: rgba(255,255,255,.16); }
@@ -288,13 +268,8 @@ body.natal .view { padding-top: clamp(2.4rem, 4vw, 3rem); }
 @keyframes luz { 0%, 100% { opacity: 1; } 50% { opacity: .35; } }
 @media (prefers-reduced-motion: reduce) { .luzes i, body.natal::before { animation: none; } }
 
-/* ---------- 14. Natal: camadas decorativas ----------
-   Tudo fica FIXO ATRÁS do conteúdo, sem receber cliques, desfocado (efeito fosco)
-   e protegido por um "véu" escuro no centro da tela, para nunca atrapalhar letras e textos.
-   O script.js cria a camada .natal-fundo. */
+/* ---------- 14. Natal: camadas decorativas ---------- */
 .natal-fundo { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
-
-/* Manchas de luz vermelha / vinho / dourada que flutuam devagar */
 .nf-glow { position: absolute; border-radius: 50%; will-change: transform; filter: blur(8px); }
 .nf-glow.g1 { width: 70vmax; height: 70vmax; left: -26vmax; top: -24vmax; background: radial-gradient(circle, rgba(255,50,60,.32), transparent 64%); animation: nfDeriva1 24s ease-in-out infinite alternate; }
 .nf-glow.g2 { width: 64vmax; height: 64vmax; right: -24vmax; bottom: -26vmax; background: radial-gradient(circle, rgba(230,30,60,.30), transparent 64%); animation: nfDeriva2 30s ease-in-out infinite alternate; }
@@ -302,8 +277,6 @@ body.natal .view { padding-top: clamp(2.4rem, 4vw, 3rem); }
 .nf-glow.g4 { width: 52vmax; height: 52vmax; right: -14vmax; top: -16vmax; background: radial-gradient(circle, rgba(170,20,50,.30), transparent 66%); animation: nfDeriva2 34s ease-in-out infinite alternate; }
 @keyframes nfDeriva1 { from { transform: translate3d(0, 0, 0) scale(1); } to { transform: translate3d(8vw, 7vh, 0) scale(1.14); } }
 @keyframes nfDeriva2 { from { transform: translate3d(0, 0, 0) scale(1.08); } to { transform: translate3d(-9vw, -6vh, 0) scale(.95); } }
-
-/* Luzes desfocadas (bokeh) que sobem bem devagar, como na arte do Feliz Natal */
 .nf-bokeh { position: absolute; bottom: -18vh; border-radius: 50%; background: radial-gradient(circle, var(--c) 0%, transparent 70%); filter: blur(9px); opacity: 0; animation: nfSobe linear infinite; will-change: transform, opacity; }
 @keyframes nfSobe {
   0%   { transform: translate3d(0, 0, 0) scale(.85); opacity: 0; }
@@ -311,26 +284,16 @@ body.natal .view { padding-top: clamp(2.4rem, 4vw, 3rem); }
   80%  { opacity: .22; }
   100% { transform: translate3d(var(--dx, 30px), -125vh, 0) scale(1.15); opacity: 0; }
 }
-
-/* Pontinhos que brilham (criados pelo script) */
 .nf-brilho { position: absolute; border-radius: 50%; background: var(--c, #fff); box-shadow: 0 0 8px 2px var(--c, #fff); opacity: .15; animation: nfPisca 3.2s ease-in-out infinite; }
 @keyframes nfPisca { 0%, 100% { opacity: .12; transform: scale(.8); } 50% { opacity: .8; transform: scale(1.25); } }
-
-/* Árvore de Natal com pisca-pisca e presentes (canto inferior esquerdo, fosca e discreta) */
 .nf-arvore { position: absolute; left: -1vw; bottom: 0; width: clamp(190px, 26vw, 420px); opacity: .22; filter: blur(1.4px) saturate(.9); -webkit-mask-image: linear-gradient(to right, #000 52%, transparent 100%); mask-image: linear-gradient(to right, #000 52%, transparent 100%); }
 .nf-arvore svg { width: 100%; height: auto; }
 .nf-bola { animation: nfPisca 2.6s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
 .nf-estrela { animation: nfPulsa 3.4s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
 @keyframes nfPulsa { 0%, 100% { transform: scale(1); filter: drop-shadow(0 0 4px #ffd54a); } 50% { transform: scale(1.18); filter: drop-shadow(0 0 12px #ffd54a); } }
-
-/* Coruja de Natal (canto inferior direito, fosca e esmaecida nas bordas) */
 .nf-coruja { position: absolute; right: -2vw; bottom: -1vh; width: clamp(200px, 29vw, 440px); height: auto; opacity: .16; filter: blur(1.2px); -webkit-mask-image: radial-gradient(closest-side, #000 52%, transparent 100%); mask-image: radial-gradient(closest-side, #000 52%, transparent 100%); animation: nfFlutua 8s ease-in-out infinite alternate; }
 @keyframes nfFlutua { from { transform: translateY(0) rotate(-1.5deg); } to { transform: translateY(-14px) rotate(1.5deg); } }
-
-/* Véu fosco: escurece de leve o centro da tela (onde ficam os textos) e deixa só as bordas "acesas" */
 .nf-veu { position: absolute; inset: 0; background: radial-gradient(ellipse 80% 70% at 50% 46%, rgba(3,11,36,.58) 0%, rgba(3,11,36,.30) 55%, transparent 100%); }
-
-/* Celular: tudo menor e ainda mais discreto */
 @media (max-width: 640px) {
   .nf-arvore { width: 44vw; opacity: .16; left: -5vw; }
   .nf-coruja { width: 54vw; opacity: .12; right: -9vw; }
@@ -342,4 +305,118 @@ body.natal .view { padding-top: clamp(2.4rem, 4vw, 3rem); }
 @media (prefers-reduced-motion: reduce) {
   .nf-glow, .nf-brilho, .nf-bola, .nf-estrela, .nf-coruja { animation: none; }
   .nf-bokeh { animation: none; opacity: .16; bottom: auto; }
+}
+
+/* ---------- 15. Galeria da Duda ---------- */
+.gal-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(260px, 100%), 1fr));
+  gap: clamp(1rem, 2vw, 1.6rem);
+  margin-top: 1.8rem;
+}
+.gal-item {
+  margin: 0;
+  background: var(--surface);
+  border: 2px solid var(--line);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  transition: border-color .15s, transform .15s;
+  display: flex;
+  flex-direction: column;
+}
+.gal-item:hover {
+  border-color: var(--blue);
+  transform: translateY(-3px);
+}
+.gal-item img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  display: block;
+  cursor: zoom-in;
+  transition: opacity .15s;
+  background: var(--ice);
+}
+.gal-item img:hover { opacity: .88; }
+.gal-item figcaption {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .8rem;
+  padding: .9rem 1.1rem 1rem;
+}
+.gal-nome {
+  font-family: var(--head);
+  font-weight: 700;
+  font-size: .95rem;
+  color: var(--text);
+}
+.gal-baixar,
+.gal-lightbox-baixar {
+  display: inline-flex;
+  align-items: center;
+  gap: .45rem;
+  text-decoration: none;
+  font-weight: 800;
+  font-size: .85rem;
+  padding: .45rem 1rem;
+  border-radius: 999px;
+  background: var(--blue);
+  color: #fff;
+  transition: background .15s;
+  white-space: nowrap;
+}
+.gal-baixar:hover,
+.gal-lightbox-baixar:hover { background: #3a92ff; }
+.gal-baixar svg { width: 16px; height: 16px; }
+.gal-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: rgba(2, 16, 52, .94);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.4rem;
+  padding: 2rem 1rem;
+  backdrop-filter: blur(4px);
+}
+.gal-lightbox[hidden] { display: none !important; }
+.gal-lightbox-img {
+  max-width: min(92vw, 1100px);
+  max-height: 78vh;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: 14px;
+  box-shadow: 0 20px 60px rgba(0,0,0,.6);
+}
+.gal-lightbox-baixar {
+  font-size: .95rem;
+  padding: .7rem 1.6rem;
+}
+.gal-lightbox-baixar svg { width: 18px; height: 18px; }
+.gal-fechar {
+  position: absolute;
+  top: 1rem;
+  right: 1.2rem;
+  width: 48px;
+  height: 48px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255,255,255,.12);
+  color: #fff;
+  font-size: 2rem;
+  line-height: 1;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: background .15s;
+}
+.gal-fechar:hover { background: rgba(255,255,255,.25); }
+@media (max-width: 560px) {
+  .gal-lightbox-img { max-height: 70vh; }
+  .gal-fechar { top: .6rem; right: .6rem; width: 42px; height: 42px; font-size: 1.7rem; }
 }
