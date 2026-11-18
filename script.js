@@ -41,7 +41,7 @@ var MUSICA_VOLUME = .12;
 var EXEMPLOS = [
   { data: '2026-11-17', categoria: 'EducaTV', titulo: 'Feliz Natal! Boas Festas 2026', texto: '', detalhe: '', link: 'natal-2026.jpg', rotulo: 'Ver imagem', imagem: '', arte: 'natal-2026.jpg', carrossel: 'sim' },
   { data: '2026-11-17', categoria: 'EducaTV', titulo: 'Calendário Geral: formações e reuniões da equipe', texto: '', detalhe: '', link: 'calendario-geral.jpg', rotulo: 'Ver calendário completo', imagem: '', poster: 'calendario-geral.jpg', carrossel: 'sim' },
-  { data: '2026-11-16', categoria: 'EducaTV', titulo: 'Aniversário da EducaTV', texto: 'Confira os materiais e a identidade visual da EducaTV Campinas.', detalhe: '', link: 'https://educatvdevops-ops.github.io/EducaTV-Links/#materiais', rotulo: 'Saiba mais', imagem: '', carrossel: 'sim' },
+  { data: '2026-11-16', categoria: 'EducaTV', titulo: 'Aniversário da EducaTV', texto: 'Confira no Instagram da EducaTV Campinas.', detalhe: '', link: 'https://www.instagram.com/reel/DfvxDEKuC5L/', rotulo: 'Ver no Instagram', imagem: '', carrossel: 'sim' },
   { data: '', categoria: 'Prefeitura', titulo: 'Projeto audiovisual da EducaTV resgata memória do antigo Ateneu e debate educação patrimonial em Campinas', texto: 'Matéria da Prefeitura de Campinas sobre o projeto audiovisual da EducaTV.', detalhe: 'Portal da Prefeitura de Campinas', link: 'https://campinas.sp.gov.br/noticias/153511', rotulo: 'Ler matéria', imagem: '', carrossel: 'sim' },
   { data: '', categoria: 'Educação', titulo: 'Práticas Restaurativas e Cultura de Paz: evento especial da SME Campinas', texto: 'Assista à transmissão do evento especial no canal da SME Campinas.', detalhe: 'YouTube · SME Campinas', link: 'https://www.youtube.com/live/IsbnOa2nDaY', rotulo: 'Assistir no YouTube', imagem: '', carrossel: 'sim' }
 ];
@@ -95,7 +95,8 @@ mostrarTela();
 var LINKS_EXTRA = [
   { tela: 'materiais', tipo: 'PDF', nome: 'Catálogo de Produções: Eixo Equidade 2026', texto: 'Temas do eixo Equidade nas produções da EducaTV Campinas.', link: 'https://drive.google.com/file/d/14ZbMjOw6B-t-ONy_PAGfDvCHbtJEZ6x7/view' },
   { tela: 'materiais', tipo: 'PDF', nome: 'Catálogo EducaTV 2022–2025', texto: 'Catálogo com as produções da EducaTV de 2022 a 2025.', link: 'https://drive.google.com/file/d/1Cz7agcU-zxtIIULdTEW-SSJmvCNwM-wm/view' },
-  { tela: 'materiais', tipo: 'Vídeo', nome: 'Vinheta EducaTV', texto: 'Abre a pasta Materiais de Edição, onde ficam as vinhetas.', link: 'https://drive.google.com/drive/folders/1NdvghebEC-JgZP_0xF7T-H1a_ByuJe2F' }
+  { tela: 'materiais', tipo: 'Vídeo', nome: 'Vinheta EducaTV', texto: 'Abre a pasta Materiais de Edição, onde ficam as vinhetas.', link: 'https://drive.google.com/drive/folders/1NdvghebEC-JgZP_0xF7T-H1a_ByuJe2F' },
+  { tela: 'materiais', tipo: 'Doc', nome: 'Template Cabeçalho + Rodapé EducaTV', texto: 'Modelo de cabeçalho e rodapé da EducaTV Campinas para os documentos. Faça uma cópia antes de editar.', link: 'https://docs.google.com/document/d/17pg4AMVk-ZfQxdUDGi9rm3dyJySqB0M6XEIAmFrAZ6Q/edit?tab=t.0' }
 ];
 LINKS_EXTRA.forEach(function (x) {
   var ul = document.querySelector('#v-' + x.tela + ' .lk-list');
@@ -624,7 +625,7 @@ carregarNovidades().then(function (todas) {
   }
 
   var Musica = (function () {
-    var ctx = null, saida = null, timer = null, prox = 0, tocando = false, arq = null;
+    var ctx = null, saida = null, timer = null, prox = 0, tocando = false, arq = null, aoComecar = null;
     var BATIDA = 60 / 100;
     var F = { C4: 261.63, D4: 293.66, E4: 329.63, F4: 349.23, G4: 392, A4: 440, B4: 493.88, C5: 523.25, 'F#4': 369.99 };
     var A1 = 'E4:1 E4:1 E4:2 E4:1 E4:1 E4:2 E4:1 G4:1 C4:1.5 D4:.5 E4:4 ';
@@ -655,48 +656,77 @@ carregarNovidades().then(function (todas) {
       prox += TOTAL * BATIDA;
     }
     function vigiar() { if (ctx && ctx.currentTime > prox - 3) agendar(); }
+
+    // só considera que "começou" quando o navegador realmente liberou o som
+    function comecou() { if (tocando) return; tocando = true; if (aoComecar) aoComecar(); }
+
+    function mudou() {
+      if (ctx.state === 'running') {
+        if (!timer) timer = setInterval(vigiar, 700);
+        comecou();
+      } else {
+        tocando = false;
+        if (timer) { clearInterval(timer); timer = null; }
+      }
+    }
+
+    function criar() {
+      var AC = window.AudioContext || window.webkitAudioContext;
+      if (!AC) return false;
+      ctx = new AC();
+      // o relógio do áudio só anda quando o som é liberado: a entrada suave (3 s) começa nesse momento
+      saida = ctx.createGain();
+      saida.gain.setValueAtTime(.0001, ctx.currentTime);
+      saida.gain.linearRampToValueAtTime(MUSICA_VOLUME, ctx.currentTime + 3);
+      var atraso = ctx.createDelay(), fb = ctx.createGain();
+      atraso.delayTime.value = .4; fb.gain.value = .38;
+      saida.connect(ctx.destination); saida.connect(atraso); atraso.connect(fb); fb.connect(atraso); atraso.connect(ctx.destination);
+      prox = ctx.currentTime + .3; agendar();
+      ctx.onstatechange = mudou;
+      mudou();   // se o navegador já liberou o som, começa agora
+      return true;
+    }
+
+    // pode ser chamada quantas vezes quiser: tenta liberar o som e não faz nada se já está tocando
     function ligar() {
       if (MUSICA_ARQUIVO) {
         if (!arq) { arq = new Audio(MUSICA_ARQUIVO); arq.loop = true; arq.volume = Math.min(1, MUSICA_VOLUME * 2.5); }
-        arq.play(); tocando = true; return true;
+        var p = arq.play();
+        if (p && p.then) p.then(comecou, function () {}); else comecou();
+        return;
       }
-      var AC = window.AudioContext || window.webkitAudioContext;
-      if (!AC) return false;
-      if (!ctx) {
-        ctx = new AC();
-        saida = ctx.createGain(); saida.gain.setValueAtTime(.0001, ctx.currentTime); saida.gain.linearRampToValueAtTime(MUSICA_VOLUME, ctx.currentTime + 3);
-        var atraso = ctx.createDelay(), fb = ctx.createGain();
-        atraso.delayTime.value = .4; fb.gain.value = .38;
-        saida.connect(ctx.destination); saida.connect(atraso); atraso.connect(fb); fb.connect(atraso); atraso.connect(ctx.destination);
-        prox = ctx.currentTime + .3; agendar();
+      if (!ctx && !criar()) return;
+      if (ctx.state !== 'running') {
+        try { var r = ctx.resume(); if (r && r.catch) r.catch(function () {}); } catch (e) {}
       }
-      ctx.resume();
-      if (!timer) timer = setInterval(vigiar, 700);
-      tocando = true; return true;
     }
     function pausar() {
       if (arq) arq.pause();
-      if (ctx) ctx.suspend();
+      if (ctx && ctx.state === 'running') ctx.suspend();
       if (timer) { clearInterval(timer); timer = null; }
       tocando = false;
     }
-    return { ligar: ligar, pausar: pausar, tocando: function () { return tocando; } };
+    return { ligar: ligar, pausar: pausar, tocando: function () { return tocando; }, aoComecar: function (f) { aoComecar = f; } };
   })();
 
-  var musicaIniciada = false;
+  /* --- música: tenta tocar assim que a página abre; se o navegador bloquear o som, começa no primeiro clique/toque/tecla --- */
+  var musicaIniciada = false, pausadaPelaAba = false;
   if (MUSICA) {
-    var EVENTOS = ['pointerdown', 'touchstart', 'keydown'];
-    var primeiro = function () {
-      if (musicaIniciada) return;
-      if (Musica.ligar()) {
-        musicaIniciada = true;
-        EVENTOS.forEach(function (e) { document.removeEventListener(e, primeiro, true); });
-      }
-    };
-    EVENTOS.forEach(function (e) { document.addEventListener(e, primeiro, true); });
+    // só eventos que os navegadores aceitam como "gesto da pessoa" (touchstart e rolagem NÃO contam)
+    var EVENTOS = ['pointerdown', 'pointerup', 'mousedown', 'click', 'touchend', 'keydown'];
+    var tentar = function () { if (!musicaIniciada) Musica.ligar(); };
+    Musica.aoComecar(function () {
+      musicaIniciada = true;
+      EVENTOS.forEach(function (e) { document.removeEventListener(e, tentar, true); });
+    });
+    EVENTOS.forEach(function (e) { document.addEventListener(e, tentar, true); });
+    tentar();                                  // 1) já ao abrir (toca direto se o navegador/site permitir som automático)
+    window.addEventListener('load', tentar);   // 2) de novo quando a página terminar de carregar
+    // pausa quando a aba fica escondida e volta quando a pessoa retorna
     document.addEventListener('visibilitychange', function () {
       if (!musicaIniciada) return;
-      if (document.hidden) Musica.pausar(); else Musica.ligar();
+      if (document.hidden) { if (Musica.tocando()) { pausadaPelaAba = true; Musica.pausar(); } }
+      else if (pausadaPelaAba) { pausadaPelaAba = false; Musica.ligar(); }
     });
   }
 
