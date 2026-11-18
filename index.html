@@ -26,6 +26,7 @@
       <a href="#sistemas">Sistemas</a>
       <a href="#processos">Processos</a>
       <a href="#historico">Histórico</a>
+      <a href="#galeria">Galeria</a>
     </nav>
     <div class="search">
       <label class="sr" for="lk-filtro">Buscar link</label>
@@ -42,7 +43,6 @@
   <section class="view on" id="v-inicio" data-view="inicio">
     <div class="wrap">
 
-      <!-- Destaques (carrossel). Vêm da planilha (veja PLANILHA_CSV no começo do script.js) -->
       <section class="block first" id="destaques">
         <div class="car" role="region" aria-roledescription="carousel" aria-label="Destaques">
           <div class="car-view"><div class="car-track" id="car-track"></div></div>
@@ -55,7 +55,6 @@
         </div>
       </section>
 
-      <!-- Calendário (Google Agenda). Os calendários ficam em CALENDARIOS, no começo do script.js -->
       <section class="block" id="calendario">
         <span class="chip">Agenda</span>
         <h2 class="h2">Calendário <b>EducaTV</b></h2>
@@ -64,7 +63,6 @@
         <p class="agenda-acoes"><a class="lk-btn" href="https://calendar.google.com/calendar/r" target="_blank" rel="noopener noreferrer">Abrir no Google Agenda</a></p>
       </section>
 
-      <!-- Wi-Fi -->
       <section class="block" id="wifi">
         <span class="chip">Internet</span>
         <h2 class="h2">Redes <b>Wi-Fi</b></h2>
@@ -96,7 +94,6 @@
         <p class="wf-status" id="wf-status" role="status" aria-live="polite"></p>
       </section>
 
-      <!-- QR Codes -->
       <section class="block" id="qrcodes">
         <span class="chip">Acesso rápido</span>
         <h2 class="h2">QR <b>Codes</b></h2>
@@ -122,16 +119,6 @@
 
     </div>
   </section>
-
-  <!--
-    ===== COMO ADICIONAR UM LINK NOVO =====
-    Copie um bloco <li>...</li> inteiro e troque:
-      href        -> endereço do link
-      .lk-tag     -> tipo (PDF, Vídeo, Pasta, Doc, Planilha, Sistema...)
-      .lk-name    -> título
-      .lk-text    -> descrição curta
-    O botão de copiar o endereço é criado sozinho pelo script.js.
-  -->
 
   <!-- ===== Materiais e identidade visual ===== -->
   <section class="view lk-view" id="v-materiais" data-view="materiais">
@@ -205,7 +192,7 @@
     </div>
   </section>
 
-  <!-- ===== HISTÓRICO: tudo o que já passou pelo carrossel (vem da planilha) ===== -->
+  <!-- ===== HISTÓRICO ===== -->
   <section class="view" id="v-historico" data-view="historico">
     <div class="wrap">
       <span class="chip">Arquivo</span>
@@ -222,6 +209,117 @@
     </div>
   </section>
 
+  <!-- ===== GALERIA DA DUDA ===== -->
+  <section class="view" id="v-galeria" data-view="galeria">
+    <div class="wrap">
+      <span class="chip">Fotos</span>
+      <h2 class="h2">Galeria da <b>Duda</b></h2>
+      <p class="sub">Clique em uma foto para abrir em tela cheia. Lá você pode baixar a imagem.</p>
+
+      <div class="gal-grid" id="gal-grid">
+
+        <!-- Vídeo -->
+        <figure class="gal-item">
+          <video controls preload="metadata" playsinline style="display:block;width:100%;aspect-ratio:4/3;object-fit:contain;background:#000">
+            <source src="Video%20duda.mp4" type="video/mp4">
+          </video>
+          <figcaption style="display:flex;justify-content:flex-end;padding:.7rem 1rem .8rem">
+            <a class="gal-baixar" href="Video%20duda.mp4" download="duda-video.mp4" aria-label="Baixar vídeo">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"/><path d="M7 11l5 5 5-5"/><path d="M5 20h14"/></svg>
+              Baixar
+            </a>
+          </figcaption>
+        </figure>
+
+        <!-- Fotos (21) -->
+        <figure class="gal-item">
+          <img src="duda%20abra%C3%A7o.jpeg" alt="Foto da Duda, mascote da EducaTV Campinas" loading="lazy">
+        </figure>
+
+        <figure class="gal-item">
+          <img src="duda.jpeg" alt="Foto da Duda, mascote da EducaTV Campinas" loading="lazy">
+        </figure>
+
+        <figure class="gal-item">
+          <img src="duds.jpeg" alt="Foto da Duda, mascote da EducaTV Campinas" loading="lazy">
+        </figure>
+
+        <figure class="gal-item">
+          <img src="educa.jpeg" alt="Foto da Duda, mascote da EducaTV Campinas" loading="lazy">
+        </figure>
+
+        <figure class="gal-item">
+          <img src="event.jpeg" alt="Foto da Duda, mascote da EducaTV Campinas" loading="lazy">
+        </figure>
+
+        <figure class="gal-item">
+          <img src="galera.jpeg" alt="Foto da Duda, mascote da EducaTV Campinas" loading="lazy">
+        </figure>
+
+        <figure class="gal-item">
+          <img src="People%20educatv.jpeg" alt="Foto da Duda, mascote da EducaTV Campinas" loading="lazy">
+        </figure>
+
+        <figure class="gal-item">
+          <img src="upo.jpeg" alt="Foto da Duda, mascote da EducaTV Campinas" loading="lazy">
+        </figure>
+
+        <figure class="gal-item">
+          <img src="WhatsApp%20Image%202.jpeg" alt="Foto da Duda, mascote da EducaTV Campinas" loading="lazy">
+        </figure>
+
+        <figure class="gal-item">
+          <img src="WhatsApp%20Image%202026-11-17%20at%20.jpeg" alt="Foto da Duda, mascote da EducaTV Campinas" loading="lazy">
+        </figure>
+
+        <figure class="gal-item">
+          <img src="WhatsApp%20Image%202026-11-17%20at%2011.2.jpeg" alt="Foto da Duda, mascote da EducaTV Campinas" loading="lazy">
+        </figure>
+
+        <figure class="gal-item">
+          <img src="WhatsApp%20Image%202026-11-17%20at%2011.11.34.jp.jpeg" alt="Foto da Duda, mascote da EducaTV Campinas" loading="lazy">
+        </figure>
+
+        <figure class="gal-item">
+          <img src="WhatsApp%20Image%202026-11-17%20at%2011.11.34.jpeg" alt="Foto da Duda, mascote da EducaTV Campinas" loading="lazy">
+        </figure>
+
+        <figure class="gal-item">
+          <img src="WhatsApp%20Image%202026-11-17%20at%2011.12.48.jpeg" alt="Foto da Duda, mascote da EducaTV Campinas" loading="lazy">
+        </figure>
+
+        <figure class="gal-item">
+          <img src="WhatsApp%20Image%202026-11-17%20at%2011.12.49.jpeg" alt="Foto da Duda, mascote da EducaTV Campinas" loading="lazy">
+        </figure>
+
+        <figure class="gal-item">
+          <img src="WhatsApp%20Image%202026-11-17%20at%2011.12.51.jpeg" alt="Foto da Duda, mascote da EducaTV Campinas" loading="lazy">
+        </figure>
+
+        <figure class="gal-item">
+          <img src="WhatsApp%20Image%202026-11-17%20at%2011.21.0.jpeg" alt="Foto da Duda, mascote da EducaTV Campinas" loading="lazy">
+        </figure>
+
+        <figure class="gal-item">
+          <img src="WhatsApp%20Image%202026-11-17%20at%2011.21.06.jpeg" alt="Foto da Duda, mascote da EducaTV Campinas" loading="lazy">
+        </figure>
+
+        <figure class="gal-item">
+          <img src="WhatsApp%20Image%202026-11-17%20at%2011.21.07.jpeg" alt="Foto da Duda, mascote da EducaTV Campinas" loading="lazy">
+        </figure>
+
+        <figure class="gal-item">
+          <img src="WhatsApp%20Image%202026-11-17%20at%2011.21.jpeg" alt="Foto da Duda, mascote da EducaTV Campinas" loading="lazy">
+        </figure>
+
+        <figure class="gal-item">
+          <img src="WhatsApp%20Image%202026.jpeg" alt="Foto da Duda, mascote da EducaTV Campinas" loading="lazy">
+        </figure>
+
+      </div>
+    </div>
+  </section>
+
   <p class="lk-empty" id="lk-vazio" role="status" aria-live="polite">Nenhum link encontrado para essa busca.</p>
 </main>
 
@@ -234,6 +332,16 @@
     <p>Rua Sacramento, 374, Vila Itapura<br>CEP 13.010-210<br>(19) 3733-7474 · educatv@educa.campinas.sp.gov.br</p>
   </div>
 </footer>
+
+<!-- Visualizador de foto em tela cheia -->
+<div class="gal-lightbox" id="gal-lightbox" role="dialog" aria-modal="true" aria-label="Foto ampliada" hidden>
+  <button type="button" class="gal-fechar" id="gal-fechar" aria-label="Fechar">&times;</button>
+  <img class="gal-lightbox-img" id="gal-lightbox-img" src="" alt="">
+  <a class="gal-lightbox-baixar" id="gal-lightbox-baixar" href="#" download>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"/><path d="M7 11l5 5 5-5"/><path d="M5 20h14"/></svg>
+    Baixar esta foto
+  </a>
+</div>
 
 <script src="script.js"></script>
 </body>
